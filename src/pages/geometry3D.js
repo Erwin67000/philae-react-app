@@ -63,131 +63,69 @@ const arete3 = {
 };
 
 // Create derived arêtes
-const arete1_2 = { ...arete1 };
-arete1_2.Point0[1] = Largeur - arete1.Point0[1];
-arete1_2.Point1[1] = Largeur - arete1.Point1[1];
-arete1_2.Point2[1] = Largeur - arete1.Point2[1];
-arete1_2.Point3[1] = Largeur - arete1.Point3[1];
-arete1_2.Point4[1] = Largeur - arete1.Point4[1];
-arete1_2.Point5[1] = Largeur - arete1.Point5[1];
-arete1_2.Point6[1] = Largeur - arete1.Point6[1];
-arete1_2.Point7[1] = Largeur - arete1.Point7[1];
-arete1_2.Point8[1] = Largeur - arete1.Point8[1];
-arete1_2.Point9[1] = Largeur - arete1.Point9[1];
-arete1_2.Point10[1] = Largeur - arete1.Point10[1];
-arete1_2.Point11[1] = Largeur - arete1.Point11[1];
+function deepCopyArete(arete) {
+  // Deep copy all 12 points
+  const newArete = {};
+  for (let i = 0; i < 12; i++) {
+    newArete[`Point${i}`] = [...arete[`Point${i}`]];
+  }
+  return newArete;
+}
 
-const arete1_3 = { ...arete1 };
-arete1_3.Point0[2] = Hauteur - arete1.Point0[2];
-arete1_3.Point1[2] = Hauteur - arete1.Point1[2];
-arete1_3.Point2[2] = Hauteur - arete1.Point2[2];
-arete1_3.Point3[2] = Hauteur - arete1.Point3[2];
-arete1_3.Point4[2] = Hauteur - arete1.Point4[2];
-arete1_3.Point5[2] = Hauteur - arete1.Point5[2];
-arete1_3.Point6[2] = Hauteur - arete1.Point6[2];
-arete1_3.Point7[2] = Hauteur - arete1.Point7[2];
-arete1_3.Point8[2] = Hauteur - arete1.Point8[2];
-arete1_3.Point9[2] = Hauteur - arete1.Point9[2];
-arete1_3.Point10[2] = Hauteur - arete1.Point10[2];
-arete1_3.Point11[2] = Hauteur - arete1.Point11[2];
+// arete1_2: Y transform
+const arete1_2 = deepCopyArete(arete1);
+for (let i = 0; i < 12; i++) {
+  arete1_2[`Point${i}`][1] = Largeur - arete1[`Point${i}`][1];
+}
 
-const arete1_4 = { ...arete1_2 };
-arete1_4.Point0[2] = Hauteur - arete1_2.Point0[2];
-arete1_4.Point1[2] = Hauteur - arete1_2.Point1[2];
-arete1_4.Point2[2] = Hauteur - arete1_2.Point2[2];
-arete1_4.Point3[2] = Hauteur - arete1_2.Point3[2];
-arete1_4.Point4[2] = Hauteur - arete1_2.Point4[2];
-arete1_4.Point5[2] = Hauteur - arete1_2.Point5[2];
-arete1_4.Point6[2] = Hauteur - arete1_2.Point6[2];
-arete1_4.Point7[2] = Hauteur - arete1_2.Point7[2];
-arete1_4.Point8[2] = Hauteur - arete1_2.Point8[2];
-arete1_4.Point9[2] = Hauteur - arete1_2.Point9[2];
-arete1_4.Point10[2] = Hauteur - arete1_2.Point10[2];
-arete1_4.Point11[2] = Hauteur - arete1_2.Point11[2];
+// arete1_3: Z transform
+const arete1_3 = deepCopyArete(arete1);
+for (let i = 0; i < 12; i++) {
+  arete1_3[`Point${i}`][2] = Hauteur - arete1[`Point${i}`][2];
+}
 
-const arete2_1 = { ...arete2 };
-arete2_1.Point0[0] = Longueur - arete2.Point0[0];
-arete2_1.Point1[0] = Longueur - arete2.Point1[0];
-arete2_1.Point2[0] = Longueur - arete2.Point2[0];
-arete2_1.Point3[0] = Longueur - arete2.Point3[0];
-arete2_1.Point4[0] = Longueur - arete2.Point4[0];
-arete2_1.Point5[0] = Longueur - arete2.Point5[0];
-arete2_1.Point6[0] = Longueur - arete2.Point6[0];
-arete2_1.Point7[0] = Longueur - arete2.Point7[0];
-arete2_1.Point8[0] = Longueur - arete2.Point8[0];
-arete2_1.Point9[0] = Longueur - arete2.Point9[0];
-arete2_1.Point10[0] = Longueur - arete2.Point10[0];
-arete2_1.Point11[0] = Longueur - arete2.Point11[0];
+// arete1_4: Y then Z transform
+const arete1_4 = deepCopyArete(arete1_2);
+for (let i = 0; i < 12; i++) {
+  arete1_4[`Point${i}`][2] = Hauteur - arete1_2[`Point${i}`][2];
+}
 
-const arete2_3 = { ...arete2 };
-arete2_3.Point0[2] = Hauteur - arete2.Point0[2];
-arete2_3.Point1[2] = Hauteur - arete2.Point1[2];
-arete2_3.Point2[2] = Hauteur - arete2.Point2[2];
-arete2_3.Point3[2] = Hauteur - arete2.Point3[2];
-arete2_3.Point4[2] = Hauteur - arete2.Point4[2];
-arete2_3.Point5[2] = Hauteur - arete2.Point5[2];
-arete2_3.Point6[2] = Hauteur - arete2.Point6[2];
-arete2_3.Point7[2] = Hauteur - arete2.Point7[2];
-arete2_3.Point8[2] = Hauteur - arete2.Point8[2];
-arete2_3.Point9[2] = Hauteur - arete2.Point9[2];
-arete2_3.Point10[2] = Hauteur - arete2.Point10[2];
-arete2_3.Point11[2] = Hauteur - arete2.Point11[2];
+// arete2_1: X transform
+const arete2_1 = deepCopyArete(arete2);
+for (let i = 0; i < 12; i++) {
+  arete2_1[`Point${i}`][0] = Longueur - arete2[`Point${i}`][0];
+}
 
-const arete2_4 = { ...arete2_1 };
-arete2_4.Point0[2] = Hauteur - arete2_1.Point0[2];
-arete2_4.Point1[2] = Hauteur - arete2_1.Point1[2];
-arete2_4.Point2[2] = Hauteur - arete2_1.Point2[2];
-arete2_4.Point3[2] = Hauteur - arete2_1.Point3[2];
-arete2_4.Point4[2] = Hauteur - arete2_1.Point4[2];
-arete2_4.Point5[2] = Hauteur - arete2_1.Point5[2];
-arete2_4.Point6[2] = Hauteur - arete2_1.Point6[2];
-arete2_4.Point7[2] = Hauteur - arete2_1.Point7[2];
-arete2_4.Point8[2] = Hauteur - arete2_1.Point8[2];
-arete2_4.Point9[2] = Hauteur - arete2_1.Point9[2];
-arete2_4.Point10[2] = Hauteur - arete2_1.Point10[2];
-arete2_4.Point11[2] = Hauteur - arete2_1.Point11[2];
+// arete2_3: X transform
+const arete2_3 = deepCopyArete(arete2);
+for (let i = 0; i < 12; i++) {
+  arete2_3[`Point${i}`][2] = Hauteur - arete2[`Point${i}`][2];
+}
 
-const arete3_1 = { ...arete3 };
-arete3_1.Point0[0] = Longueur - arete3.Point0[0];
-arete3_1.Point1[0] = Longueur - arete3.Point1[0];
-arete3_1.Point2[0] = Longueur - arete3.Point2[0];
-arete3_1.Point3[0] = Longueur - arete3.Point3[0];
-arete3_1.Point4[0] = Longueur - arete3.Point4[0];
-arete3_1.Point5[0] = Longueur - arete3.Point5[0];
-arete3_1.Point6[0] = Longueur - arete3.Point6[0];
-arete3_1.Point7[0] = Longueur - arete3.Point7[0];
-arete3_1.Point8[0] = Longueur - arete3.Point8[0];
-arete3_1.Point9[0] = Longueur - arete3.Point9[0];
-arete3_1.Point10[0] = Longueur - arete3.Point10[0];
-arete3_1.Point11[0] = Longueur - arete3.Point11[0];
+// arete2_4: X transform
+const arete2_4 = deepCopyArete(arete2_1);
+for (let i = 0; i < 12; i++) {
+  arete2_4[`Point${i}`][2] = Hauteur - arete2[`Point${i}`][2];
+}
 
-const arete3_2 = { ...arete3 };
-arete3_2.Point0[1] = Largeur - arete3.Point0[1];
-arete3_2.Point1[1] = Largeur - arete3.Point1[1];
-arete3_2.Point2[1] = Largeur - arete3.Point2[1];
-arete3_2.Point3[1] = Largeur - arete3.Point3[1];
-arete3_2.Point4[1] = Largeur - arete3.Point4[1];
-arete3_2.Point5[1] = Largeur - arete3.Point5[1];
-arete3_2.Point6[1] = Largeur - arete3.Point6[1];
-arete3_2.Point7[1] = Largeur - arete3.Point7[1];
-arete3_2.Point8[1] = Largeur - arete3.Point8[1];
-arete3_2.Point9[1] = Largeur - arete3.Point9[1];
-arete3_2.Point10[1] = Largeur - arete3.Point10[1];
-arete3_2.Point11[1] = Largeur - arete3.Point11[1];
+// arete3_1: X transform
+const arete3_1 = deepCopyArete(arete3);
+for (let i = 0; i < 12; i++) {
+  arete3_1[`Point${i}`][0] = Longueur - arete2[`Point${i}`][0];
+}
 
-const arete3_4 = { ...arete3_1 };
-arete3_4.Point0[1] = Largeur - arete3_1.Point0[1];
-arete3_4.Point1[1] = Largeur - arete3_1.Point1[1];
-arete3_4.Point2[1] = Largeur - arete3_1.Point2[1];
-arete3_4.Point3[1] = Largeur - arete3_1.Point3[1];
-arete3_4.Point4[1] = Largeur - arete3_1.Point4[1];
-arete3_4.Point5[1] = Largeur - arete3_1.Point5[1];
-arete3_4.Point6[1] = Largeur - arete3_1.Point6[1];
-arete3_4.Point7[1] = Largeur - arete3_1.Point7[1];
-arete3_4.Point8[1] = Largeur - arete3_1.Point8[1];
-arete3_4.Point9[1] = Largeur - arete3_1.Point9[1];
-arete3_4.Point10[1] = Largeur - arete3_1.Point10[1];
-arete3_4.Point11[1] = Largeur - arete3_1.Point11[1];
+// arete3_2: X transform
+const arete3_2 = deepCopyArete(arete3);
+for (let i = 0; i < 12; i++) {
+  arete3_1[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
+}
+
+// arete3_4: X transform
+const arete3_4 = deepCopyArete(arete3_1);
+for (let i = 0; i < 12; i++) {
+  arete3_1[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
+}
+
 
 const panneau_fond = {
   B1: [arete1_2.Point5[0] - epaisseur, arete1_2.Point5[1] + epaisseur, arete1_2.Point5[2] - epaisseur],
