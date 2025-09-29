@@ -29,6 +29,8 @@ const Configurateur = () => {
     };
   });
 
+
+
   // Prepare data for panels
   const panels = [
     { data: panneau_fond, name: 'Fond', color: 'blue' },
@@ -85,3 +87,7 @@ const Configurateur = () => {
 };
 
 export default Configurateur;
+
+
+
+console.log("Arête 1:", arete1)
