@@ -117,13 +117,13 @@ for (let i = 0; i < 12; i++) {
 // arete3_2: X transform
 const arete3_2 = deepCopyArete(arete3);
 for (let i = 0; i < 12; i++) {
-  arete3_1[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
+  arete3_2[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
 }
 
 // arete3_4: X transform
 const arete3_4 = deepCopyArete(arete3_1);
 for (let i = 0; i < 12; i++) {
-  arete3_1[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
+  arete3_4[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
 }
 
 
