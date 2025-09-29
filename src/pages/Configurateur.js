@@ -24,18 +24,15 @@ const Configurateur = () => {
 
   // State for dimensions
   // Default value 200, min/max can be changed as needed
-  const [Longueur, setLongueur] = useState(200);
-  const [Largeur, setLargeur] = useState(200);
-  const [Hauteur, setHauteur] = useState(200);
-  const minValue = 50; // Set your min value here
+  const [Longueur, setLongueur] = useState(400);
+  const [Largeur, setLargeur] = useState(600);
+  const [Hauteur, setHauteur] = useState(800);
+  const minValue = 200; // Set your min value here
   const maxValue = 2000; // Set your max value here
 
   // Compute geometry based on current state
-  const {
-    arete1, arete2, arete3, arete1_2, arete1_3, arete1_4,
-    arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4,
-    panneau_fond, joue1, joue2, socle, dessus
-  } = computeGeometry(Longueur, Largeur, Hauteur);
+  computeGeometry(Longueur, Largeur, Hauteur);
+  return (arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus)
 
   const max_dim = Math.max(Longueur, Largeur, Hauteur) * 1.1;
 
