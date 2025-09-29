@@ -184,4 +184,4 @@ computeGeometry(Longueur, Largeur, Hauteur)
 
 
 
-export { computeGeometry};
+export { computeGeometry };
