@@ -9,21 +9,18 @@ const Configurateur = () => {
 
   const max_dim = Math.max(Longueur, Largeur, Hauteur) * 1.1;
 
-  // Prepare data for all arêtes
+  // Prepare data for all arêtes with correct indices for each
   const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
   const arêteTraces = arêtes.map((arête, idx) => {
-    const points = Object.values(arête);
-    const i = face_arete.map(([i]) => i);
-    const j = face_arete.map(([_, j]) => j);
-    const k = face_arete.map(([_, __, k]) => k);
+    const points = Object.values(arête); // 12 points per arête
     return {
       type: 'mesh3d',
       x: points.map(p => p[0]),
       y: points.map(p => p[1]),
       z: points.map(p => p[2]),
-      i: i,
-      j: j,
-      k: k,
+      i: face_arete.map(f => f[0]), // Use face_arete indices
+      j: face_arete.map(f => f[1]),
+      k: face_arete.map(f => f[2]),
       color: 'rgba(150, 110, 51, 1)',
       opacity: 1,
       flatshading: true,
@@ -42,17 +39,14 @@ const Configurateur = () => {
   ];
   const panelTraces = panels.map(({ data, name, color }) => {
     const points = Object.values(data);
-    const i = face_panneau.map(([i]) => i);
-    const j = face_panneau.map(([_, j]) => j);
-    const k = face_panneau.map(([_, __, k]) => k);
     return {
       type: 'mesh3d',
       x: points.map(p => p[0]),
       y: points.map(p => p[1]),
       z: points.map(p => p[2]),
-      i: i,
-      j: j,
-      k: k,
+      i: face_panneau.map(([i]) => i),
+      j: face_panneau.map(([_, j]) => j),
+      k: face_panneau.map(([_, __, k]) => k),
       color: color,
       opacity: 0.7,
       flatshading: true,
@@ -62,19 +56,9 @@ const Configurateur = () => {
   });
 
   return (
-    <div>
-      {/* Header placeholder - replace with your actual Header component */}
-      <header style={{ backgroundImage: `url('/assets/background.jpg')`, padding: '28px', textAlign: 'center' }}>
-        <img src="/assets/Logo_Philae_design.png" alt="Logo Philae Design" style={{ height: '50px' }} />
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li style={{ display: 'inline', margin: '0 15px' }}><a href="/">Accueil</a></li>
-          <li style={{ display: 'inline', margin: '0 15px' }}><a href="/configurateur">Configurateur</a></li>
-          <li style={{ display: 'inline', margin: '0 15px' }}><a href="/boutique">Boutique</a></li>
-          <li style={{ display: 'inline', margin: '0 15px' }}><a href="/contact">Contact</a></li>
-        </ul>
-      </header>
+    <main style={{ width: '100vw', height: '100vh' }}>
       {/* Full-screen 3D visualization */}
-      <div style={{ width: '100vw', height: 'calc(100vh - 100px)' }}>
+      <div style={{ width: '100%', height: '100%' }}>
         <Plot
           data={[...arêteTraces, ...panelTraces]}
           layout={{
@@ -96,7 +80,7 @@ const Configurateur = () => {
           config={{ responsive: true }}
         />
       </div>
-    </div>
+    </main>
   );
 };
 
