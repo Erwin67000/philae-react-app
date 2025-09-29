@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
-import { arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus } from './geometry3D';
+import { computeGeometry } from './geometry3D';
 
 
   const face_arete = [
@@ -31,8 +31,11 @@ const Configurateur = () => {
   const maxValue = 2000; // Set your max value here
 
   // Compute geometry based on current state
-  computeGeometry(Longueur, Largeur, Hauteur)
-  return (arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus)
+  const {
+    arete1, arete2, arete3, arete1_2, arete1_3, arete1_4,
+    arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4,
+    panneau_fond, joue1, joue2, socle, dessus
+  } = computeGeometry(Longueur, Largeur, Hauteur);
 
   const max_dim = Math.max(Longueur, Largeur, Hauteur) * 1.1;
 
