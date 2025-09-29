@@ -14,7 +14,6 @@ const delta_x = Math.tan(alpha) * l / 2;
 const delta_hx = h * Math.tan(alpha);
 const R3 = Math.sqrt(h ** 2 + (l / 2) ** 2);
 const Rot3 = R3 > 0 ? Math.acos((l / 2) / R3) : 0;
-const Rot5 = R3 > 0 ? Math.acos((-l / 2) / R3) : 0;
 const Rot3_y = R3 * Math.cos(Rot3 - Math.PI / 4);
 const Rot3_z = R3 * Math.sin(Rot3 - Math.PI / 4);
 
