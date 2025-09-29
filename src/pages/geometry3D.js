@@ -1,4 +1,3 @@
-
 const l = 40;
 const h = 40;
 const epaisseur = 19;
@@ -15,7 +14,7 @@ const Rot3_y = R3 * Math.cos(Rot3 - Math.PI / 4);
 const Rot3_z = R3 * Math.sin(Rot3 - Math.PI / 4);
 
 
-computeGeometry(Longueur, Largeur, Hauteur)
+function computeGeometry(Longueur, Largeur, Hauteur)
   const arete1 = {
     Point0: [0, 0, 0],
     Point1: [delta_hx, delta_hx, delta_hx],
@@ -183,4 +182,6 @@ computeGeometry(Longueur, Largeur, Hauteur)
   };
 
 
-return { arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus };
+  return { arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus };
+}
+export { computeGeometry };
