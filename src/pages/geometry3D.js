@@ -14,7 +14,7 @@ const Rot3_y = R3 * Math.cos(Rot3 - Math.PI / 4);
 const Rot3_z = R3 * Math.sin(Rot3 - Math.PI / 4);
 
 
-function computeGeometry(Longueur, Largeur, Hauteur) {}
+function computeGeometry(Longueur, Largeur, Hauteur) {
   const arete1 = {
     Point0: [0, 0, 0],
     Point1: [delta_hx, delta_hx, delta_hx],
