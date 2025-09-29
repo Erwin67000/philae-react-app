@@ -25,7 +25,7 @@ const Configurateur = () => {
       i: face_arete.map(f => f[0]),
       j: face_arete.map(f => f[1]),
       k: face_arete.map(f => f[2]),
-      color: arêteColors[idx % arêteColors.length],
+      color: 'blue',
       opacity: 1,
       flatshading: true,
       name: `arête_${idx}`,
