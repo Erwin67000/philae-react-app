@@ -182,20 +182,6 @@ computeGeometry(Longueur, Largeur, Hauteur)
     H4: arete1_4.Point3
   };
 
-  const face_arete = [
-    [0, 2, 8], [8, 6, 0],
-    [6, 10, 4], [4, 0, 6],
-    [1, 3, 9], [9, 7, 1],
-    [7, 11, 5], [5, 1, 7],
-    [2, 3, 8], [8, 9, 3],
-    [4, 5, 10], [10, 11, 5]
-  ];
 
-  const face_panneau = [
-    [0, 1, 2],
-    [2, 3, 0],
-    [4, 5, 6],
-    [6, 7, 4]
-  ];
 
-export { computeGeometry, face_arete, face_panneau };
+export { computeGeometry};
