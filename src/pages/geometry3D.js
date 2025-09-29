@@ -105,25 +105,25 @@ for (let i = 0; i < 12; i++) {
 // arete2_4: X transform
 const arete2_4 = deepCopyArete(arete2_1);
 for (let i = 0; i < 12; i++) {
-  arete2_4[`Point${i}`][2] = Hauteur - arete2[`Point${i}`][2];
+  arete2_4[`Point${i}`][2] = Hauteur - arete2_1[`Point${i}`][2];
 }
 
 // arete3_1: X transform
 const arete3_1 = deepCopyArete(arete3);
 for (let i = 0; i < 12; i++) {
-  arete3_1[`Point${i}`][0] = Longueur - arete2[`Point${i}`][0];
+  arete3_1[`Point${i}`][0] = Longueur - arete3[`Point${i}`][0];
 }
 
 // arete3_2: X transform
 const arete3_2 = deepCopyArete(arete3);
 for (let i = 0; i < 12; i++) {
-  arete3_2[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
+  arete3_2[`Point${i}`][1] = Largeur - arete3[`Point${i}`][1];
 }
 
 // arete3_4: X transform
 const arete3_4 = deepCopyArete(arete3_1);
 for (let i = 0; i < 12; i++) {
-  arete3_4[`Point${i}`][1] = Largeur - arete2[`Point${i}`][1];
+  arete3_4[`Point${i}`][1] = Largeur - arete3_1[`Point${i}`][1];
 }
 
 
