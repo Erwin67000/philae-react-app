@@ -1,10 +1,7 @@
+
 const l = 40;
 const h = 40;
 const epaisseur = 19;
-
-const Longueur = 1000;
-const Largeur = 400;
-const Hauteur = 2300;
 
 const sqrt2 = Math.sqrt(2);
 const sqrt3 = Math.sqrt(3);
@@ -16,6 +13,9 @@ const R3 = Math.sqrt(h ** 2 + (l / 2) ** 2);
 const Rot3 = R3 > 0 ? Math.acos((l / 2) / R3) : 0;
 const Rot3_y = R3 * Math.cos(Rot3 - Math.PI / 4);
 const Rot3_z = R3 * Math.sin(Rot3 - Math.PI / 4);
+
+
+computeGeometry(Longueur, Largeur, Hauteur)
 
 const arete1 = {
   Point0: [0, 0, 0],
@@ -61,6 +61,7 @@ const arete3 = {
   Point10: [-delta_x, delta_x, Hauteur - delta_x],
   Point11: [Rot3_z, Rot3_y, Hauteur - Rot3_y]
 };
+
 
 // Create derived arêtes
 function deepCopyArete(arete) {

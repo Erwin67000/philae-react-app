@@ -1,20 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
-import { arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus, face_arete, face_panneau, Longueur, Largeur, Hauteur } from './geometry3D';
+import { computeGeometry, face_arete, face_panneau } from './geometry3D';
 
 const Configurateur = () => {
-  useEffect(() => {
-    // Ensure Plotly is loaded
-  }, []);
+
+  // State for dimensions
+  const [Longueur, setLongueur] = useState(100);
+  const [Largeur, setLargeur] = useState(60);
+  const [Hauteur, setHauteur] = useState(40);
+
+  // Compute geometry based on current state
+  const {
+    arete1, arete2, arete3, arete1_2, arete1_3, arete1_4,
+    arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4,
+    panneau_fond, joue1, joue2, socle, dessus
+  } = computeGeometry(Longueur, Largeur, Hauteur);
 
   const max_dim = Math.max(Longueur, Largeur, Hauteur) * 1.1;
 
   // Prepare data for all arêtes with unique colors and scatter3d for vertices
   const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
-  const arêteColors = [
-    'red', 'green', 'blue', 'orange', 'purple', 'cyan',
-    'magenta', 'yellow', 'lime', 'pink', 'brown', 'gray'
-  ];
+  const arêteColors = 'rgba(170, 132, 74, 1)';
   const arêteTraces = arêtes.map((arête, idx) => {
     const points = Object.values(arête);
     return {
@@ -25,7 +31,7 @@ const Configurateur = () => {
       i: face_arete.map(f => f[0]),
       j: face_arete.map(f => f[1]),
       k: face_arete.map(f => f[2]),
-      color: 'blue',
+      color: arêteColors,
       opacity: 1,
       flatshading: true,
       name: `arête_${idx}`,
@@ -82,8 +88,21 @@ const Configurateur = () => {
 
   return (
     <main style={{ width: '100vw', height: '100vh' }}>
-      {/* Full-screen 3D visualization */}
-      <div style={{ width: '100%', height: '100%' }}>
+      <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16 }}>
+        <label>
+          Longueur:
+          <input type="number" value={Longueur} onChange={e => setLongueur(Number(e.target.value))} min={1} style={{ marginLeft: 8, width: 60 }} />
+        </label>
+        <label>
+          Largeur:
+          <input type="number" value={Largeur} onChange={e => setLargeur(Number(e.target.value))} min={1} style={{ marginLeft: 8, width: 60 }} />
+        </label>
+        <label>
+          Hauteur:
+          <input type="number" value={Hauteur} onChange={e => setHauteur(Number(e.target.value))} min={1} style={{ marginLeft: 8, width: 60 }} />
+        </label>
+      </div>
+      <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
         <Plot
           data={[...arêteTraces, ...arêtePointsTraces, ...panelTraces]}
           layout={{
