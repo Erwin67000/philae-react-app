@@ -186,3 +186,4 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
     arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus 
   };
 }
+export { computeGeometry };
