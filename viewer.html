@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisateur 3D Philae</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script> <!-- Plotly.js CDN -->
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        #graph { width: 100vw; height: 90vh; }
+    </style>
+</head>
+<body>
+    <div id="graph"></div>
+    <script>
+        // Paramètres paramétriques (modifie ici pour changer les dimensions)
+        const l = 40;
+        const h = 40;
+        const epaisseur = 19;
+        const Longueur = 1000;
+        const Largeur = 400;
+        const Hauteur = 2300;
+
+        const sqrt2 = Math.sqrt(2);
+        const sqrt3 = Math.sqrt(3);
+        const alpha = Math.acos(sqrt2 / sqrt3);
+        const delta_x = Math.tan(alpha) * l / 2;
+        const delta_hx = h * Math.tan(alpha);
+        const R3 = Math.sqrt(h**2 + (l/2)**2);
+        const Rot3 = R3 > 0 ? Math.acos((l/2)/R3) : 0;
+        const Rot5 = R3 > 0 ? Math.acos((-l/2)/R3) : 0;
+        const Rot3_y = R3 * Math.cos(Rot3 - Math.PI/4);
+        const Rot3_z = R3 * Math.sin(Rot3 - Math.PI/4);
+
+        // Arête 1 (équivalent DataFrame)
+        const arete1 = {
+            X: [0, delta_hx, delta_x, Rot3_y, delta_x, Rot3_y, Longueur, Longueur - delta_hx, Longueur - delta_x, Longueur - Rot3_y, Longueur - delta_x, Longueur - Rot3_y],
+            Y: [0, delta_hx, delta_x, Rot3_y, -delta_x, Rot3_z, 0, delta_hx, delta_x, Rot3_y, -delta_x, Rot3_z],
+            Z: [0, delta_hx, -delta_x, Rot3_z, delta_x, Rot3_y, 0, delta_hx, -delta_x, Rot3_z, delta_x, Rot3_y]
+        };
+
+        // Arête 2
+        const arete2 = {
+            X: [0, delta_hx, -delta_x, Rot3_z, delta_x, Rot3_y, 0, delta_hx, -delta_x, Rot3_z, delta_x, Rot3_y],
+            Y: [0, delta_hx, delta_x, Rot3_y, delta_x, Rot3_y, Largeur, Largeur - delta_hx, Largeur - delta_x, Largeur - Rot3_y, Largeur - delta_x, Largeur - Rot3_y],
+            Z: [0, delta_hx, delta_x, Rot3_y, -delta_x, Rot3_z, 0, delta_hx, delta_x, Rot3_y, -delta_x, Rot3_z]
+        };
+
+        // Arête 3
+        const arete3 = {
+            X: [0, delta_hx, delta_x, Rot3_y, -delta_x, Rot3_z, 0, delta_hx, delta_x, Rot3_y, -delta_x, Rot3_z],
+            Y: [0, delta_hx, -delta_x, Rot3_z, delta_x, Rot3_y, 0, delta_hx, -delta_x, Rot3_z, delta_x, Rot3_y],
+            Z: [0, delta_hx, delta_x, Rot3_y, delta_x, Rot3_y, Hauteur, Hauteur - delta_hx, Hauteur - delta_x, Hauteur - Rot3_y, Hauteur - delta_x, Hauteur - Rot3_y]
+        };
+
+        // Dérivées (copies avec modifications)
+        const arete1_2 = {...arete1, Y: arete1.Y.map(y => Largeur - y)};
+        const arete1_3 = {...arete1, Z: arete1.Z.map(z => Hauteur - z)};
+        const arete1_4 = {...arete1_2, Z: arete1_2.Z.map(z => Hauteur - z)};
+        const arete2_1 = {...arete2, X: arete2.X.map((v, i) => arete1.X[i])}; // Approximation basée sur script, ajuste si besoin
+        // Ajoute les autres dérivées de la même façon si nécessaires (arete2_2, etc.)
+
+        // Traces pour arêtes (lignes 3D)
+        const areteTraces = []; // Ajoute tes traces ligne ici, ex. :
+        // Exemple pour arete1 : Plotly.addTrace({type: 'scatter3d', mode: 'lines', x: arete1.X, y: arete1.Y, z: arete1.Z, name: 'Arête 1'});
+
+        // Traces pour faces (meshes)
+        const faceTraces = []; // Ajoute tes meshes comme dans le script Python, ex. :
+        // {type: 'mesh3d', x: [...], y: [...], z: [...], i: [...], j: [...], k: [...], name: 'face_Fond', color: 'blue', opacity: 0.5}
+
+        // Création du graphique
+        const data = [...areteTraces, ...faceTraces];
+        const layout = {
+            scene: {aspectmode: 'cube', xaxis: {range: [-30, Math.max(Longueur, Largeur, Hauteur) * 1.1] /* etc. */}},
+            updatemenus: [
+                {buttons: [{method: 'update', args: [{visible: [true/false for each trace]}], label: 'Toggle Arêtes'} /* Ajoute un bouton par groupe */}]
+        };
+        Plotly.newPlot('graph', data, layout);
+    </script>
+</body>
+</html>
