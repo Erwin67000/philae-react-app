@@ -5,9 +5,12 @@ import { computeGeometry, face_arete, face_panneau } from './geometry3D';
 const Configurateur = () => {
 
   // State for dimensions
-  const [Longueur, setLongueur] = useState(100);
-  const [Largeur, setLargeur] = useState(60);
-  const [Hauteur, setHauteur] = useState(40);
+  // Default value 200, min/max can be changed as needed
+  const [Longueur, setLongueur] = useState(200);
+  const [Largeur, setLargeur] = useState(200);
+  const [Hauteur, setHauteur] = useState(200);
+  const minValue = 50; // Set your min value here
+  const maxValue = 2000; // Set your max value here
 
   // Compute geometry based on current state
   const {
@@ -91,15 +94,36 @@ const Configurateur = () => {
       <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16 }}>
         <label>
           Longueur:
-          <input type="number" value={Longueur} onChange={e => setLongueur(Number(e.target.value))} min={1} style={{ marginLeft: 8, width: 60 }} />
+          <input
+            type="number"
+            value={Longueur}
+            onChange={e => setLongueur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
+            min={minValue}
+            max={maxValue}
+            style={{ marginLeft: 8, width: 60 }}
+          />
         </label>
         <label>
           Largeur:
-          <input type="number" value={Largeur} onChange={e => setLargeur(Number(e.target.value))} min={1} style={{ marginLeft: 8, width: 60 }} />
+          <input
+            type="number"
+            value={Largeur}
+            onChange={e => setLargeur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
+            min={minValue}
+            max={maxValue}
+            style={{ marginLeft: 8, width: 60 }}
+          />
         </label>
         <label>
           Hauteur:
-          <input type="number" value={Hauteur} onChange={e => setHauteur(Number(e.target.value))} min={1} style={{ marginLeft: 8, width: 60 }} />
+          <input
+            type="number"
+            value={Hauteur}
+            onChange={e => setHauteur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
+            min={minValue}
+            max={maxValue}
+            style={{ marginLeft: 8, width: 60 }}
+          />
         </label>
       </div>
       <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
