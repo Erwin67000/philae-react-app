@@ -9,22 +9,45 @@ const Configurateur = () => {
 
   const max_dim = Math.max(Longueur, Largeur, Hauteur) * 1.1;
 
-  // Prepare data for all arêtes with correct indices for each
+  // Prepare data for all arêtes with unique colors and scatter3d for vertices
   const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
+  const arêteColors = [
+    'red', 'green', 'blue', 'orange', 'purple', 'cyan',
+    'magenta', 'yellow', 'lime', 'pink', 'brown', 'gray'
+  ];
   const arêteTraces = arêtes.map((arête, idx) => {
-    const points = Object.values(arête); // 12 points per arête
+    const points = Object.values(arête);
     return {
       type: 'mesh3d',
       x: points.map(p => p[0]),
       y: points.map(p => p[1]),
       z: points.map(p => p[2]),
-      i: face_arete.map(f => f[0]), // Use face_arete indices
+      i: face_arete.map(f => f[0]),
       j: face_arete.map(f => f[1]),
       k: face_arete.map(f => f[2]),
-      color: 'rgba(150, 110, 51, 1)',
+      color: arêteColors[idx % arêteColors.length],
       opacity: 1,
       flatshading: true,
       name: `arête_${idx}`,
+      visible: true
+    };
+  });
+
+  // Add scatter3d traces for arête vertices for debugging
+  const arêtePointsTraces = arêtes.map((arête, idx) => {
+    const points = Object.values(arête);
+    return {
+      type: 'scatter3d',
+      mode: 'markers',
+      x: points.map(p => p[0]),
+      y: points.map(p => p[1]),
+      z: points.map(p => p[2]),
+      marker: {
+        size: 4,
+        color: arêteColors[idx % arêteColors.length],
+        opacity: 0.8
+      },
+      name: `points_arête_${idx}`,
       visible: true
     };
   });
@@ -62,7 +85,7 @@ const Configurateur = () => {
       {/* Full-screen 3D visualization */}
       <div style={{ width: '100%', height: '100%' }}>
         <Plot
-          data={[...arêteTraces, ...panelTraces]}
+          data={[...arêteTraces, ...arêtePointsTraces, ...panelTraces]}
           layout={{
             scene: {
               xaxis_title: 'X',
@@ -87,7 +110,3 @@ const Configurateur = () => {
 };
 
 export default Configurateur;
-
-
-
-console.log("Arête 1:", arete1)
