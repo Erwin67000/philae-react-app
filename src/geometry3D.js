@@ -1,170 +1,264 @@
-import numpy as np
-import pandas as pd
+const l = 40;
+const h = 40;
+const epaisseur = 19;
 
-l = 40
-h = 40
-epaisseur = 19
+const Longueur = 1000;
+const Largeur = 400;
+const Hauteur = 2300;
 
-Longueur = 1000
-Largeur = 400
-Hauteur = 2300
+const sqrt2 = Math.sqrt(2);
+const sqrt3 = Math.sqrt(3);
+const alpha = Math.acos(sqrt2 / sqrt3);
 
-sqrt2 = np.sqrt(2)
-sqrt3 = np.sqrt(3)
-alpha = np.arccos(sqrt2 / sqrt3)
+const delta_x = Math.tan(alpha) * l / 2;
+const delta_hx = h * Math.tan(alpha);
+const R3 = Math.sqrt(h ** 2 + (l / 2) ** 2);
+const Rot3 = R3 > 0 ? Math.acos((l / 2) / R3) : 0;
+const Rot5 = R3 > 0 ? Math.acos((-l / 2) / R3) : 0;
+const Rot3_y = R3 * Math.cos(Rot3 - Math.PI / 4);
+const Rot3_z = R3 * Math.sin(Rot3 - Math.PI / 4);
 
-delta_x = np.tan(alpha) * l / 2
-delta_hx = h * np.tan(alpha)
-R3 = np.sqrt(h**2 + (l/2)**2)
-Rot3 = np.arccos((l/2)/R3) if R3 > 0 else 0
-Rot5 = np.arccos((-l/2)/R3) if R3 > 0 else 0
-Rot3_y = R3 * np.cos(Rot3 - np.pi/4)
-Rot3_z = R3 * np.sin(Rot3 - np.pi/4)
+const arete1 = {
+  Point0: [0, 0, 0],
+  Point1: [delta_hx, delta_hx, delta_hx],
+  Point2: [delta_x, delta_x, -delta_x],
+  Point3: [Rot3_y, Rot3_y, Rot3_z],
+  Point4: [delta_x, -delta_x, delta_x],
+  Point5: [Rot3_y, Rot3_z, Rot3_y],
+  Point6: [Longueur, 0, 0],
+  Point7: [Longueur - delta_hx, delta_hx, delta_hx],
+  Point8: [Longueur - delta_x, delta_x, -delta_x],
+  Point9: [Longueur - Rot3_y, Rot3_y, Rot3_z],
+  Point10: [Longueur - delta_x, -delta_x, delta_x],
+  Point11: [Longueur - Rot3_y, Rot3_z, Rot3_y]
+};
 
-arete1 = pd.DataFrame({
-    'Point0': [0, 0, 0],
-    'Point1': [delta_hx, delta_hx, delta_hx],
-    'Point2': [delta_x, delta_x, -delta_x],
-    'Point3': [Rot3_y, Rot3_y, Rot3_z],
-    'Point4': [delta_x, -delta_x, delta_x],
-    'Point5': [Rot3_y, Rot3_z, Rot3_y],
-    'Point6': [Longueur, 0, 0],
-    'Point7': [Longueur - delta_hx, delta_hx, delta_hx],
-    'Point8': [Longueur - delta_x, delta_x, -delta_x],
-    'Point9': [Longueur - Rot3_y, Rot3_y, Rot3_z],
-    'Point10': [Longueur - delta_x, -delta_x, delta_x],
-    'Point11': [Longueur - Rot3_y, Rot3_z, Rot3_y],
-}, index=['X', 'Y', 'Z'])
+const arete2 = {
+  Point0: [0, 0, 0],
+  Point1: [delta_hx, delta_hx, delta_hx],
+  Point2: [-delta_x, delta_x, delta_x],
+  Point3: [Rot3_z, Rot3_y, Rot3_y],
+  Point4: [delta_x, delta_x, -delta_x],
+  Point5: [Rot3_y, Rot3_y, Rot3_z],
+  Point6: [0, Largeur, 0],
+  Point7: [delta_hx, Largeur - delta_hx, delta_hx],
+  Point8: [-delta_x, Largeur - delta_x, delta_x],
+  Point9: [Rot3_z, Largeur - Rot3_y, Rot3_y],
+  Point10: [delta_x, Largeur - delta_x, -delta_x],
+  Point11: [Rot3_y, Largeur - Rot3_y, Rot3_z]
+};
 
-# Define arete2 DataFrame
-arete2 = pd.DataFrame({
-    'Point0': [0, 0, 0],
-    'Point1': [delta_hx, delta_hx, delta_hx],
-    'Point2': [-delta_x, delta_x, delta_x],
-    'Point3': [Rot3_z, Rot3_y, Rot3_y],
-    'Point4': [delta_x, delta_x, -delta_x],
-    'Point5': [Rot3_y, Rot3_y, Rot3_z],
-    'Point6': [0, Largeur, 0],
-    'Point7': [delta_hx, Largeur - delta_hx, delta_hx],
-    'Point8': [-delta_x, Largeur - delta_x, delta_x],
-    'Point9': [Rot3_z, Largeur - Rot3_y, Rot3_y],
-    'Point10': [delta_x, Largeur - delta_x, -delta_x],
-    'Point11': [Rot3_y, Largeur - Rot3_y, Rot3_z]
-}, index=['X', 'Y', 'Z'])
+const arete3 = {
+  Point0: [0, 0, 0],
+  Point1: [delta_hx, delta_hx, delta_hx],
+  Point2: [delta_x, -delta_x, delta_x],
+  Point3: [Rot3_y, Rot3_z, Rot3_y],
+  Point4: [-delta_x, delta_x, delta_x],
+  Point5: [Rot3_z, Rot3_y, Rot3_y],
+  Point6: [0, 0, Hauteur],
+  Point7: [delta_hx, delta_hx, Hauteur - delta_hx],
+  Point8: [delta_x, -delta_x, Hauteur - delta_x],
+  Point9: [Rot3_y, Rot3_z, Hauteur - Rot3_y],
+  Point10: [-delta_x, delta_x, Hauteur - delta_x],
+  Point11: [Rot3_z, Rot3_y, Hauteur - Rot3_y]
+};
 
-# Define arete3 DataFrame
-arete3 = pd.DataFrame({
-    'Point0': [0, 0, 0],
-    'Point1': [delta_hx, delta_hx, delta_hx],
-    'Point2': [delta_x, -delta_x, delta_x],
-    'Point3': [Rot3_y, Rot3_z, Rot3_y],
-    'Point4': [-delta_x, delta_x, delta_x],
-    'Point5': [Rot3_z, Rot3_y, Rot3_y],
-    'Point6': [0, 0, Hauteur],
-    'Point7': [delta_hx, delta_hx, Hauteur - delta_hx],
-    'Point8': [delta_x, -delta_x, Hauteur - delta_x],
-    'Point9': [Rot3_y, Rot3_z, Hauteur - Rot3_y],
-    'Point10': [-delta_x, delta_x, Hauteur - delta_x],
-    'Point11': [Rot3_z, Rot3_y, Hauteur - Rot3_y],
-}, index=['X', 'Y', 'Z'])
+// Create derived arêtes
+const arete1_2 = { ...arete1 };
+arete1_2.Point0[1] = Largeur - arete1.Point0[1];
+arete1_2.Point1[1] = Largeur - arete1.Point1[1];
+arete1_2.Point2[1] = Largeur - arete1.Point2[1];
+arete1_2.Point3[1] = Largeur - arete1.Point3[1];
+arete1_2.Point4[1] = Largeur - arete1.Point4[1];
+arete1_2.Point5[1] = Largeur - arete1.Point5[1];
+arete1_2.Point6[1] = Largeur - arete1.Point6[1];
+arete1_2.Point7[1] = Largeur - arete1.Point7[1];
+arete1_2.Point8[1] = Largeur - arete1.Point8[1];
+arete1_2.Point9[1] = Largeur - arete1.Point9[1];
+arete1_2.Point10[1] = Largeur - arete1.Point10[1];
+arete1_2.Point11[1] = Largeur - arete1.Point11[1];
 
-# Create derived arêtes
-arete1_2 = arete1.copy()
-arete1_2.loc['Y'] = Largeur - arete1.loc['Y']
-arete1_3 = arete1.copy()
-arete1_3.loc['Z'] = Hauteur - arete1.loc['Z']
-arete1_4 = arete1_2.copy()
-arete1_4.loc['Z'] = Hauteur - arete1_2.loc['Z']
+const arete1_3 = { ...arete1 };
+arete1_3.Point0[2] = Hauteur - arete1.Point0[2];
+arete1_3.Point1[2] = Hauteur - arete1.Point1[2];
+arete1_3.Point2[2] = Hauteur - arete1.Point2[2];
+arete1_3.Point3[2] = Hauteur - arete1.Point3[2];
+arete1_3.Point4[2] = Hauteur - arete1.Point4[2];
+arete1_3.Point5[2] = Hauteur - arete1.Point5[2];
+arete1_3.Point6[2] = Hauteur - arete1.Point6[2];
+arete1_3.Point7[2] = Hauteur - arete1.Point7[2];
+arete1_3.Point8[2] = Hauteur - arete1.Point8[2];
+arete1_3.Point9[2] = Hauteur - arete1.Point9[2];
+arete1_3.Point10[2] = Hauteur - arete1.Point10[2];
+arete1_3.Point11[2] = Hauteur - arete1.Point11[2];
 
-arete2_1 = arete2.copy()
-arete2_1.loc['X'] = Longueur - arete2.loc['X']
-arete2_3 = arete2.copy()
-arete2_3.loc['Z'] = Hauteur - arete2.loc['Z']
-arete2_4 = arete2_1.copy()
-arete2_4.loc['Z'] = Hauteur - arete2_1.loc['Z']
+const arete1_4 = { ...arete1_2 };
+arete1_4.Point0[2] = Hauteur - arete1_2.Point0[2];
+arete1_4.Point1[2] = Hauteur - arete1_2.Point1[2];
+arete1_4.Point2[2] = Hauteur - arete1_2.Point2[2];
+arete1_4.Point3[2] = Hauteur - arete1_2.Point3[2];
+arete1_4.Point4[2] = Hauteur - arete1_2.Point4[2];
+arete1_4.Point5[2] = Hauteur - arete1_2.Point5[2];
+arete1_4.Point6[2] = Hauteur - arete1_2.Point6[2];
+arete1_4.Point7[2] = Hauteur - arete1_2.Point7[2];
+arete1_4.Point8[2] = Hauteur - arete1_2.Point8[2];
+arete1_4.Point9[2] = Hauteur - arete1_2.Point9[2];
+arete1_4.Point10[2] = Hauteur - arete1_2.Point10[2];
+arete1_4.Point11[2] = Hauteur - arete1_2.Point11[2];
 
-arete3_1 = arete3.copy()
-arete3_1.loc['X'] = Longueur - arete3.loc['X']
-arete3_2 = arete3.copy()
-arete3_2.loc['Y'] = Largeur - arete3.loc['Y']
-arete3_4 = arete3_1.copy()
-arete3_4.loc['Y'] = Largeur - arete3_1.loc['Y']
+const arete2_1 = { ...arete2 };
+arete2_1.Point0[0] = Longueur - arete2.Point0[0];
+arete2_1.Point1[0] = Longueur - arete2.Point1[0];
+arete2_1.Point2[0] = Longueur - arete2.Point2[0];
+arete2_1.Point3[0] = Longueur - arete2.Point3[0];
+arete2_1.Point4[0] = Longueur - arete2.Point4[0];
+arete2_1.Point5[0] = Longueur - arete2.Point5[0];
+arete2_1.Point6[0] = Longueur - arete2.Point6[0];
+arete2_1.Point7[0] = Longueur - arete2.Point7[0];
+arete2_1.Point8[0] = Longueur - arete2.Point8[0];
+arete2_1.Point9[0] = Longueur - arete2.Point9[0];
+arete2_1.Point10[0] = Longueur - arete2.Point10[0];
+arete2_1.Point11[0] = Longueur - arete2.Point11[0];
 
-# Create panneau_fond DataFrame
-panneau_fond = pd.DataFrame({
-    'B1': arete1_2['Point5'] + pd.Series([-epaisseur, epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B2': arete1_2['Point11'] + pd.Series([epaisseur, epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B3': arete1_4['Point11'] + pd.Series([epaisseur, epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'B4': arete1_4['Point5'] + pd.Series([-epaisseur, epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'H1': arete1_2['Point5'],
-    'H2': arete1_2['Point11'],
-    'H3': arete1_4['Point11'],
-    'H4': arete1_4['Point5']
-}, index=['X', 'Y', 'Z'])
+const arete2_3 = { ...arete2 };
+arete2_3.Point0[2] = Hauteur - arete2.Point0[2];
+arete2_3.Point1[2] = Hauteur - arete2.Point1[2];
+arete2_3.Point2[2] = Hauteur - arete2.Point2[2];
+arete2_3.Point3[2] = Hauteur - arete2.Point3[2];
+arete2_3.Point4[2] = Hauteur - arete2.Point4[2];
+arete2_3.Point5[2] = Hauteur - arete2.Point5[2];
+arete2_3.Point6[2] = Hauteur - arete2.Point6[2];
+arete2_3.Point7[2] = Hauteur - arete2.Point7[2];
+arete2_3.Point8[2] = Hauteur - arete2.Point8[2];
+arete2_3.Point9[2] = Hauteur - arete2.Point9[2];
+arete2_3.Point10[2] = Hauteur - arete2.Point10[2];
+arete2_3.Point11[2] = Hauteur - arete2.Point11[2];
 
-# Create joue1 DataFrame
-joue1 = pd.DataFrame({
-    'B1': arete2['Point3'] + pd.Series([-epaisseur, -epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B2': arete2['Point9'] + pd.Series([-epaisseur, epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B3': arete2_3['Point9'] + pd.Series([-epaisseur, epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'B4': arete2_3['Point3'] + pd.Series([-epaisseur, -epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'H1': arete2['Point3'],
-    'H2': arete2['Point9'],
-    'H3': arete2_3['Point9'],
-    'H4': arete2_3['Point3']
-}, index=['X', 'Y', 'Z'])
+const arete2_4 = { ...arete2_1 };
+arete2_4.Point0[2] = Hauteur - arete2_1.Point0[2];
+arete2_4.Point1[2] = Hauteur - arete2_1.Point1[2];
+arete2_4.Point2[2] = Hauteur - arete2_1.Point2[2];
+arete2_4.Point3[2] = Hauteur - arete2_1.Point3[2];
+arete2_4.Point4[2] = Hauteur - arete2_1.Point4[2];
+arete2_4.Point5[2] = Hauteur - arete2_1.Point5[2];
+arete2_4.Point6[2] = Hauteur - arete2_1.Point6[2];
+arete2_4.Point7[2] = Hauteur - arete2_1.Point7[2];
+arete2_4.Point8[2] = Hauteur - arete2_1.Point8[2];
+arete2_4.Point9[2] = Hauteur - arete2_1.Point9[2];
+arete2_4.Point10[2] = Hauteur - arete2_1.Point10[2];
+arete2_4.Point11[2] = Hauteur - arete2_1.Point11[2];
 
-# Create joue2 DataFrame (mirrored or adjusted version of joue1 for variety)
-joue2 = pd.DataFrame({
-    'B1': arete2_1['Point3'] + pd.Series([epaisseur, -epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B2': arete2_1['Point9'] + pd.Series([epaisseur, epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B3': arete2_4['Point9'] + pd.Series([epaisseur, epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'B4': arete2_4['Point3'] + pd.Series([epaisseur, -epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'H1': arete2_1['Point3'],
-    'H2': arete2_1['Point9'],
-    'H3': arete2_4['Point9'],
-    'H4': arete2_4['Point3']
-}, index=['X', 'Y', 'Z'])
+const arete3_1 = { ...arete3 };
+arete3_1.Point0[0] = Longueur - arete3.Point0[0];
+arete3_1.Point1[0] = Longueur - arete3.Point1[0];
+arete3_1.Point2[0] = Longueur - arete3.Point2[0];
+arete3_1.Point3[0] = Longueur - arete3.Point3[0];
+arete3_1.Point4[0] = Longueur - arete3.Point4[0];
+arete3_1.Point5[0] = Longueur - arete3.Point5[0];
+arete3_1.Point6[0] = Longueur - arete3.Point6[0];
+arete3_1.Point7[0] = Longueur - arete3.Point7[0];
+arete3_1.Point8[0] = Longueur - arete3.Point8[0];
+arete3_1.Point9[0] = Longueur - arete3.Point9[0];
+arete3_1.Point10[0] = Longueur - arete3.Point10[0];
+arete3_1.Point11[0] = Longueur - arete3.Point11[0];
 
-socle = pd.DataFrame({
-    'B1': arete1['Point3'] + pd.Series([-epaisseur, -epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B2': arete1['Point9'] + pd.Series([epaisseur, -epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B3': arete1_2['Point9'] + pd.Series([epaisseur, epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'B4': arete1_2['Point3'] + pd.Series([-epaisseur, epaisseur, -epaisseur], index=['X', 'Y', 'Z']),
-    'H1': arete1['Point3'],
-    'H2': arete1['Point9'],
-    'H3': arete1_2['Point9'],
-    'H4': arete1_2['Point3']
-}, index=['X', 'Y', 'Z'])
+const arete3_2 = { ...arete3 };
+arete3_2.Point0[1] = Largeur - arete3.Point0[1];
+arete3_2.Point1[1] = Largeur - arete3.Point1[1];
+arete3_2.Point2[1] = Largeur - arete3.Point2[1];
+arete3_2.Point3[1] = Largeur - arete3.Point3[1];
+arete3_2.Point4[1] = Largeur - arete3.Point4[1];
+arete3_2.Point5[1] = Largeur - arete3.Point5[1];
+arete3_2.Point6[1] = Largeur - arete3.Point6[1];
+arete3_2.Point7[1] = Largeur - arete3.Point7[1];
+arete3_2.Point8[1] = Largeur - arete3.Point8[1];
+arete3_2.Point9[1] = Largeur - arete3.Point9[1];
+arete3_2.Point10[1] = Largeur - arete3.Point10[1];
+arete3_2.Point11[1] = Largeur - arete3.Point11[1];
 
+const arete3_4 = { ...arete3_1 };
+arete3_4.Point0[1] = Largeur - arete3_1.Point0[1];
+arete3_4.Point1[1] = Largeur - arete3_1.Point1[1];
+arete3_4.Point2[1] = Largeur - arete3_1.Point2[1];
+arete3_4.Point3[1] = Largeur - arete3_1.Point3[1];
+arete3_4.Point4[1] = Largeur - arete3_1.Point4[1];
+arete3_4.Point5[1] = Largeur - arete3_1.Point5[1];
+arete3_4.Point6[1] = Largeur - arete3_1.Point6[1];
+arete3_4.Point7[1] = Largeur - arete3_1.Point7[1];
+arete3_4.Point8[1] = Largeur - arete3_1.Point8[1];
+arete3_4.Point9[1] = Largeur - arete3_1.Point9[1];
+arete3_4.Point10[1] = Largeur - arete3_1.Point10[1];
+arete3_4.Point11[1] = Largeur - arete3_1.Point11[1];
 
-dessus = pd.DataFrame({
-    'B1': arete1_3['Point3'] + pd.Series([-epaisseur, -epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'B2': arete1_3['Point9'] + pd.Series([epaisseur, -epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'B3': arete1_4['Point9'] + pd.Series([epaisseur, epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'B4': arete1_4['Point3'] + pd.Series([-epaisseur, epaisseur, epaisseur], index=['X', 'Y', 'Z']),
-    'H1': arete1_3['Point3'],
-    'H2': arete1_3['Point9'],
-    'H3': arete1_4['Point9'],
-    'H4': arete1_4['Point3']
-}, index=['X', 'Y', 'Z'])
+const panneau_fond = {
+  B1: [arete1_2.Point5[0] - epaisseur, arete1_2.Point5[1] + epaisseur, arete1_2.Point5[2] - epaisseur],
+  B2: [arete1_2.Point11[0] + epaisseur, arete1_2.Point11[1] + epaisseur, arete1_2.Point11[2] - epaisseur],
+  B3: [arete1_4.Point11[0] + epaisseur, arete1_4.Point11[1] + epaisseur, arete1_4.Point11[2] + epaisseur],
+  B4: [arete1_4.Point5[0] - epaisseur, arete1_4.Point5[1] + epaisseur, arete1_4.Point5[2] + epaisseur],
+  H1: arete1_2.Point5,
+  H2: arete1_2.Point11,
+  H3: arete1_4.Point11,
+  H4: arete1_4.Point5
+};
 
+const joue1 = {
+  B1: [arete2.Point3[0] - epaisseur, arete2.Point3[1] - epaisseur, arete2.Point3[2] - epaisseur],
+  B2: [arete2.Point9[0] - epaisseur, arete2.Point9[1] + epaisseur, arete2.Point9[2] - epaisseur],
+  B3: [arete2_3.Point9[0] - epaisseur, arete2_3.Point9[1] + epaisseur, arete2_3.Point9[2] + epaisseur],
+  B4: [arete2_3.Point3[0] - epaisseur, arete2_3.Point3[1] - epaisseur, arete2_3.Point3[2] + epaisseur],
+  H1: arete2.Point3,
+  H2: arete2.Point9,
+  H3: arete2_3.Point9,
+  H4: arete2_3.Point3
+};
 
+const joue2 = {
+  B1: [arete2_1.Point3[0] + epaisseur, arete2_1.Point3[1] - epaisseur, arete2_1.Point3[2] - epaisseur],
+  B2: [arete2_1.Point9[0] + epaisseur, arete2_1.Point9[1] + epaisseur, arete2_1.Point9[2] - epaisseur],
+  B3: [arete2_4.Point9[0] + epaisseur, arete2_4.Point9[1] + epaisseur, arete2_4.Point9[2] + epaisseur],
+  B4: [arete2_4.Point3[0] + epaisseur, arete2_4.Point3[1] - epaisseur, arete2_4.Point3[2] + epaisseur],
+  H1: arete2_1.Point3,
+  H2: arete2_1.Point9,
+  H3: arete2_4.Point9,
+  H4: arete2_4.Point3
+};
 
-# Define face indices renamed to face_arete
-face_arete = [
-    [0, 2, 8], [8, 6, 0],
-    [6, 10, 4], [4, 0, 6],
-    [1, 3, 9], [9, 7, 1],
-    [7, 11, 5], [5, 1, 7],
-    [2, 3, 8], [8, 9, 3],
-    [4, 5, 10], [10, 11, 5]
-]
+const socle = {
+  B1: [arete1.Point3[0] - epaisseur, arete1.Point3[1] - epaisseur, arete1.Point3[2] - epaisseur],
+  B2: [arete1.Point9[0] + epaisseur, arete1.Point9[1] - epaisseur, arete1.Point9[2] - epaisseur],
+  B3: [arete1_2.Point9[0] + epaisseur, arete1_2.Point9[1] + epaisseur, arete1_2.Point9[2] - epaisseur],
+  B4: [arete1_2.Point3[0] - epaisseur, arete1_2.Point3[1] + epaisseur, arete1_2.Point3[2] - epaisseur],
+  H1: arete1.Point3,
+  H2: arete1.Point9,
+  H3: arete1_2.Point9,
+  H4: arete1_2.Point3
+};
 
-# Define face_panneau
-face_panneau = [
-    [0, 1, 2],
-    [2, 3, 0],
-    [4, 5, 6],
-    [6, 7, 4]
-]
+const dessus = {
+  B1: [arete1_3.Point3[0] - epaisseur, arete1_3.Point3[1] - epaisseur, arete1_3.Point3[2] + epaisseur],
+  B2: [arete1_3.Point9[0] + epaisseur, arete1_3.Point9[1] - epaisseur, arete1_3.Point9[2] + epaisseur],
+  B3: [arete1_4.Point9[0] + epaisseur, arete1_4.Point9[1] + epaisseur, arete1_4.Point9[2] + epaisseur],
+  B4: [arete1_4.Point3[0] - epaisseur, arete1_4.Point3[1] + epaisseur, arete1_4.Point3[2] + epaisseur],
+  H1: arete1_3.Point3,
+  H2: arete1_3.Point9,
+  H3: arete1_4.Point9,
+  H4: arete1_4.Point3
+};
+
+const face_arete = [
+  [0, 2, 8], [8, 6, 0],
+  [6, 10, 4], [4, 0, 6],
+  [1, 3, 9], [9, 7, 1],
+  [7, 11, 5], [5, 1, 7],
+  [2, 3, 8], [8, 9, 3],
+  [4, 5, 10], [10, 11, 5]
+];
+
+const face_panneau = [
+  [0, 1, 2],
+  [2, 3, 0],
+  [4, 5, 6],
+  [6, 7, 4]
+];
+
+export { arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4, panneau_fond, joue1, joue2, socle, dessus, face_arete, face_panneau, Longueur, Largeur, Hauteur };
