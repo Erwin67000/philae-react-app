@@ -80,12 +80,13 @@ const Configurateur = () => {
 
   // Prepare data for panels
   const [panelcolor, setPanelcolor] = useState({ r: 86, g: 111, b: 165, a: 1 });
+  const panelcolorString = `rgba(${panelcolor.r}, ${panelcolor.g}, ${panelcolor.b}, ${panelcolor.a})`;
   const panels = [
-    { data: panneau_fond, name: 'Fond', color: panelcolor },
-    { data: joue1, name: 'Joue1', color:  panelcolor },
-    { data: joue2, name: 'Joue2', color:  panelcolor},
-    { data: socle, name: 'Socle', color:  panelcolor },
-    { data: dessus, name: 'Dessus', color:  panelcolor }
+    { data: panneau_fond, name: 'Fond', color: panelcolorString },
+    { data: joue1, name: 'Joue1', color:  panelcolorString },
+    { data: joue2, name: 'Joue2', color:  panelcolorString},
+    { data: socle, name: 'Socle', color:  panelcolorString },
+    { data: dessus, name: 'Dessus', color:  panelcolorString }
   ];
   const panelTraces = panels.map(({ data, name, color }) => {
     const points = Object.values(data);
@@ -106,8 +107,12 @@ const Configurateur = () => {
   });
 
   return (
-    <main style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 1, background: '#fff' }}>
-      <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16, zIndex: 2, position: 'relative' }}>
+    <>
+      <header style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600, zIndex: 10, position: 'fixed', top: 0, left: 0 }}>
+        Configurateur 3D
+      </header>
+      <main style={{ position: 'fixed', top: 56, left: 0, width: '100vw', height: 'calc(100vh - 56px)', zIndex: 1, background: '#fff' }}>
+        <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16, zIndex: 2, position: 'relative' }}>
         <label>
           Longueur:
           <input
@@ -148,7 +153,7 @@ const Configurateur = () => {
           <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
       </div>
-  <div style={{ position: 'absolute', top: 56, left: 0, width: '100vw', height: 'calc(100vh - 56px)', zIndex: 1 }}>
+    <div style={{ position: 'absolute', top: 56, left: 0, width: '100vw', height: 'calc(100vh - 56px)', zIndex: 1 }}>
         <label style={{ marginRight: 16 }}>
           Panel color (rgba):
           <SketchPicker
@@ -169,25 +174,26 @@ const Configurateur = () => {
             scene: {
               xaxis: { range: [-30, Longueur + 30], title: 'X' },
               yaxis: { range: [-30, Largeur + 30], title: 'Y' },
-              zaxis: { range: [-30, Hauteur + 30], title: 'Z' },
-              aspectmode: 'data', // auto-fit and allow zoom
+              zaxis: { range: [0, Hauteur + 30], title: 'Z' }, // restrict below ground
+              aspectmode: 'data',
               camera: {
                 up: { x: 0, y: 0, z: 1 },
                 center: { x: 0, y: 0, z: 0 },
-                eye: { x: 1, y: -2.5, z: 0 },
+                eye: { x: 200, y: -800, z: 200 },
                 projection: { type: projectionType }
-              },
+              }
+            },
             showlegend: false,
             autosize: true,
             margin: { l: 0, r: 0, t: 0, b: 0 }
-          }
-        }}
+          }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true }}
           // No onRelayout needed, let Plotly handle camera after initial mount
         />
       </div>
-    </main>
+      </main>
+    </>
   );
 };
 
