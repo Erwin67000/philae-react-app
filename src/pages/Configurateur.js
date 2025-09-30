@@ -168,11 +168,12 @@ const Configurateur = () => {
                 center: { x: 0, y: 0, z: 0 },
                 eye: { x: 200, y: -800, z: 200 },
                 projection: { type: projectionType }
-              }
+              },
             showlegend: false,
             autosize: true,
             margin: { l: 0, r: 0, t: 0, b: 0 }
-          }}
+          }
+        }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true }}
           // No onRelayout needed, let Plotly handle camera after initial mount
