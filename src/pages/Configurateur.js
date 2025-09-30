@@ -79,7 +79,7 @@ const Configurateur = () => {
       }, [projectionType]);
 
   // Prepare data for panels
-  const [panelcolor, setPanelcolor] = useState('rgba(86, 111, 165, 1)');
+  const [panelcolor, setPanelcolor] = useState({ r: 86, g: 111, b: 165, a: 1 });
   const panels = [
     { data: panneau_fond, name: 'Fond', color: panelcolor },
     { data: joue1, name: 'Joue1', color:  panelcolor },
@@ -151,12 +151,9 @@ const Configurateur = () => {
       <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
         <label style={{ marginRight: 16 }}>
           Panel color (rgba):
-          <input
-            type="color"
-            value={panelcolor}
-            onChange={color => setPanelcolor(`rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`)}
-            style={{ marginLeft: 8, width: 160, fontFamily: 'monospace' }}
-            placeholder="rgba(86, 111, 165, 1)"
+          <SketchPicker
+            color={panelcolor}
+            onChange={color => setPanelcolor(color.rgb)}
           />
         </label>
         <label style={{ marginRight: 16 }}>
