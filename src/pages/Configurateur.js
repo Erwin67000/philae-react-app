@@ -62,7 +62,7 @@ const Configurateur = () => {
 
   const [camera, setCamera] = useState({
     up: { x: 0, y: 0, z: 1 },
-    eye: { x: Longueur * 1.5 / Math.max(Longueur, Largeur, Hauteur), y: -Largeur * 1.5 / Math.max(Longueur, Largeur, Hauteur), z: Hauteur * 1.2 / Math.max(Longueur, Largeur, Hauteur) }
+    eye: { x: Longueur * 2, y: -100, z: Hauteur / 2 }
   });
     const plotRef = useRef();
 
