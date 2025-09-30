@@ -60,11 +60,22 @@ const Configurateur = () => {
     };
   });
 
-  const [camera, setCamera] = useState({
-    up: { x: 0, y: 0, z: 1 },
-    eye: { x: Longueur * 2, y: -1000, z: Hauteur / 2 }
-  });
     const plotRef = useRef();
+    // Set initial camera only once for 'zoom extents' effect
+    useEffect(() => {
+      if (plotRef.current && plotRef.current !== null) {
+        const camera = {
+          up: { x: 0, y: 0, z: 1 },
+          eye: { x: Longueur * 2, y: -100, z: Hauteur / 2 }
+        };
+        // Use Plotly's relayout to set camera only once
+        if (plotRef.current && plotRef.current.props && plotRef.current.props.onRelayout) {
+          // do nothing, handled by Plotly
+        } else if (plotRef.current && plotRef.current.figure) {
+          window.Plotly.relayout(plotRef.current.figure, { 'scene.camera': camera });
+        }
+      }
+    }, []); // Only on mount
 
   // Prepare data for panels
   const panelcolor = 'rgba(86, 111, 165, 1)';
@@ -144,9 +155,7 @@ const Configurateur = () => {
               xaxis: { range: [-30, Longueur + 30], title: 'X' },
               yaxis: { range: [-30, Largeur + 30], title: 'Y' },
               zaxis: { range: [-30, Hauteur + 30], title: 'Z' },
-              aspectmode: 'manual',
-              aspectratio: { x: Longueur, y: Largeur, z: Hauteur },
-              camera: camera
+              aspectmode: 'data', // auto-fit and allow zoom
             },
             showlegend: false,
             autosize: true,
@@ -154,11 +163,7 @@ const Configurateur = () => {
           }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true }}
-          onRelayout={event => {
-            if (event['scene.camera']) {
-            setCamera(event['scene.camera']);
-            }
-          }}
+          // No onRelayout needed, let Plotly handle camera after initial mount
         />
       </div>
     </main>
