@@ -180,7 +180,7 @@ const Configurateur = () => {
                 camera: {
                   up: { x: 0, y: 0, z: 1 },
                   center: { x: 0, y: 0, z: 0 },
-                  eye: { x: 1, y: -2, z: 0.15 },
+                  eye: { x: 1, y: -4, z: 0.15 },
                   projection: { type: projectionType }
                 }
               },
