@@ -167,7 +167,7 @@ const Configurateur = () => {
           </select>
         </label>
       </div>
-      <div style={{ width: '90vw', height: '100vw', position: 'relative', zIndex: 1 }}>
+      <div style={{ width: '90vw', height: '60vw', position: 'relative', zIndex: 1 }}>
         <label>
           <Plot
             data={[...arêteTraces, ...panelTraces]}
