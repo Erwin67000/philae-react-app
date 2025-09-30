@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Plot from 'react-plotly.js';
 import { computeGeometry } from './geometry3D';
+import { SketchPicker } from 'react-color';
 
 
   const face_arete = [
@@ -151,9 +152,9 @@ const Configurateur = () => {
         <label style={{ marginRight: 16 }}>
           Panel color (rgba):
           <input
-            type="text"
+            type="color"
             value={panelcolor}
-            onChange={e => setPanelcolor(e.target.value)}
+            onChange={color => setPanelcolor(`rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`)}
             style={{ marginLeft: 8, width: 160, fontFamily: 'monospace' }}
             placeholder="rgba(86, 111, 165, 1)"
           />
