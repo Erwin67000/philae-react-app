@@ -135,7 +135,7 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
 
 //Panneaux
 
-const tolerance = 1; // Ajustez cette valeur pour modifier la tolérance
+const tolerance = 10; // Ajustez cette valeur pour modifier la tolérance
 
 // Panneaux fond (Plan Y)
   const panneau_fond = {
