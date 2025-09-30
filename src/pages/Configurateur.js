@@ -106,8 +106,12 @@ const Configurateur = () => {
   });
 
   return (
-    <main style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 1, background: '#fff' }}>
-      <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16, zIndex: 2, position: 'relative' }}>
+    <>
+      <header style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600 }}>
+        Configurateur 3D
+      </header>
+      <main style={{ width: '100vw', height: 'calc(100vh - 56px)', background: '#fff', position: 'relative', top: 0 }}>
+        <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16, zIndex: 2, position: 'relative' }}>
         <label>
           Longueur:
           <input
@@ -148,7 +152,7 @@ const Configurateur = () => {
           <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
       </div>
-  <div style={{ position: 'absolute', top: 56, left: 0, width: '100vw', height: 'calc(100vh - 56px)', zIndex: 1 }}>
+        <div style={{ width: '100vw', height: 'calc(100vh - 56px)', zIndex: 1, position: 'absolute', top: 56, left: 0 }}>
         <label style={{ marginRight: 16 }}>
           Panel color (rgba):
           <SketchPicker
@@ -187,7 +191,8 @@ const Configurateur = () => {
           // No onRelayout needed, let Plotly handle camera after initial mount
         />
       </div>
-    </main>
+      </main>
+    </>
   );
 };
 
