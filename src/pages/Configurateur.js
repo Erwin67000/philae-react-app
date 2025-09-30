@@ -106,16 +106,17 @@ const Configurateur = () => {
   });
 
   return (
-    <>
-      <header style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600 }}>
+    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', background: '#fff' }}>
+      {/* The main site header is assumed to be rendered by App.js or a parent component */}
+      <div style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600, position: 'relative', zIndex: 10 }}>
         Configurateur 3D
-      </header>
-      <main style={{ width: '100vw', height: 'calc(100vh - 56px)', background: '#fff', position: 'relative', top: 0 }}>
-        <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16, zIndex: 2, position: 'relative' }}>
+      </div>
+      <div style={{ width: '100vw', height: 56, background: '#f8f8f8', display: 'flex', alignItems: 'center', gap: 16, padding: '0 16px', zIndex: 5, position: 'relative' }}>
+        {/* Controls bar */}
         <label>
           Longueur:
           <input
-           type="range"
+            type="range"
             value={Longueur}
             onChange={e => setLongueur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={minValue}
@@ -151,8 +152,6 @@ const Configurateur = () => {
           />
           <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
-      </div>
-        <div style={{ width: '100vw', height: 'calc(100vh - 56px)', zIndex: 1, position: 'absolute', top: 56, left: 0 }}>
         <label style={{ marginRight: 16 }}>
           Panel color (rgba):
           <SketchPicker
@@ -167,32 +166,32 @@ const Configurateur = () => {
             <option value="orthographic">Orthographic</option>
           </select>
         </label>
+      </div>
+      <div style={{ width: '100vw', height: 'calc(100vh - 112px)', position: 'relative', zIndex: 1 }}>
         <Plot
           data={[...arêteTraces, ...panelTraces]}
           layout={{
             scene: {
               xaxis: { range: [-30, Longueur + 30], title: 'X' },
               yaxis: { range: [-30, Largeur + 30], title: 'Y' },
-              zaxis: { range: [-30, Hauteur + 30], title: 'Z' },
-              aspectmode: 'data', // auto-fit and allow zoom
+              zaxis: { range: [0, Hauteur + 30], title: 'Z' }, // restrict below ground
+              aspectmode: 'data',
               camera: {
                 up: { x: 0, y: 0, z: 1 },
                 center: { x: 0, y: 0, z: 0 },
-                eye: { x: 1, y: -2.5, z: 0 },
+                eye: { x: 200, y: -800, z: 200 },
                 projection: { type: projectionType }
-              },
+              }
+            },
             showlegend: false,
             autosize: true,
             margin: { l: 0, r: 0, t: 0, b: 0 }
-          }
-        }}
+          }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true }}
-          // No onRelayout needed, let Plotly handle camera after initial mount
         />
       </div>
-      </main>
-    </>
+    </div>
   );
 };
 
