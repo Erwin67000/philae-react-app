@@ -62,12 +62,13 @@ const Configurateur = () => {
 
 
   // Prepare data for panels
+  const panelcolor = 'rgba(86, 111, 165, 1)';
   const panels = [
-    { data: panneau_fond, name: 'Fond', color: 'blue' },
-    { data: joue1, name: 'Joue1', color: 'blue' },
-    { data: joue2, name: 'Joue2', color: 'blue' },
-    { data: socle, name: 'Socle', color: 'blue' },
-    { data: dessus, name: 'Dessus', color: 'blue' }
+    { data: panneau_fond, name: 'Fond', color: panelcolor },
+    { data: joue1, name: 'Joue1', color:  panelcolor },
+    { data: joue2, name: 'Joue2', color:  panelcolor},
+    { data: socle, name: 'Socle', color:  panelcolor },
+    { data: dessus, name: 'Dessus', color:  panelcolor }
   ];
   const panelTraces = panels.map(({ data, name, color }) => {
     const points = Object.values(data);
