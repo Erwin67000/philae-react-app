@@ -144,7 +144,7 @@ const tolerance = 1; // Ajustez cette valeur pour modifier la tolérance
     B3: [arete1_4.Point11[0] + epaisseur - tolerance, arete1_4.Point11[1] + epaisseur, arete1_4.Point11[2] + epaisseur - tolerance],
     B4: [arete1_4.Point5[0] - epaisseur + tolerance, arete1_4.Point5[1] + epaisseur, arete1_4.Point5[2] + epaisseur - tolerance],
     H1: [arete1_2.Point5[0] + tolerance, arete1_2.Point5[1], arete1_2.Point5[2] + tolerance],
-    H2: [arete1_2.Point11,0] - tolerance, arete1_2.Point11[1], arete1_2.Point11[2] + tolerance],
+    H2: [arete1_2.Point11[0] - tolerance, arete1_2.Point11[1], arete1_2.Point11[2] + tolerance],
     H3: [arete1_4.Point11[0] - tolerance, arete1_4.Point11[1], arete1_4.Point11[2] - tolerance],
     H4: [arete1_4.Point5[0] + tolerance, arete1_4.Point5[1], arete1_4.Point5[2] - tolerance]
   };
