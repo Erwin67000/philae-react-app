@@ -106,8 +106,8 @@ const Configurateur = () => {
   });
 
   return (
-    <main style={{ width: '100vw', height: '100vh' }}>
-      <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16 }}>
+    <main style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 1, background: '#fff' }}>
+      <div style={{ padding: 16, background: '#f8f8f8', display: 'flex', gap: 16, zIndex: 2, position: 'relative' }}>
         <label>
           Longueur:
           <input
@@ -148,7 +148,7 @@ const Configurateur = () => {
           <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
       </div>
-      <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
+  <div style={{ position: 'absolute', top: 56, left: 0, width: '100vw', height: 'calc(100vh - 56px)', zIndex: 1 }}>
         <label style={{ marginRight: 16 }}>
           Panel color (rgba):
           <SketchPicker
