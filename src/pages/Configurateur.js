@@ -78,7 +78,7 @@ const Configurateur = () => {
       }, [projectionType]);
 
   // Prepare data for panels
-  const panelcolor = 'rgba(86, 111, 165, 1)';
+  const [panelcolor, setPanelcolor] = useState('rgba(86, 111, 165, 1)');
   const panels = [
     { data: panneau_fond, name: 'Fond', color: panelcolor },
     { data: joue1, name: 'Joue1', color:  panelcolor },
@@ -148,6 +148,16 @@ const Configurateur = () => {
         </label>
       </div>
       <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
+        <label style={{ marginRight: 16 }}>
+          Panel color (rgba):
+          <input
+            type="text"
+            value={panelcolor}
+            onChange={e => setPanelcolor(e.target.value)}
+            style={{ marginLeft: 8, width: 160, fontFamily: 'monospace' }}
+            placeholder="rgba(86, 111, 165, 1)"
+          />
+        </label>
         <label style={{ marginRight: 16 }}>
           Projection:
           <select value={projectionType} onChange={e => setProjectionType(e.target.value)} style={{ marginLeft: 8 }}>
