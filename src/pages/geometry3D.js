@@ -135,18 +135,18 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
 
 //Panneaux
 
-const tolerance = 0; // Ajustez cette valeur pour modifier la tolérance
+const tolerance = 1; // Ajustez cette valeur pour modifier la tolérance
 
 // Panneaux fond (Plan Y)
   const panneau_fond = {
-    B1: [arete1_2.Point5[0] - epaisseur, arete1_2.Point5[1] + epaisseur, arete1_2.Point5[2] - epaisseur],
-    B2: [arete1_2.Point11[0] + epaisseur, arete1_2.Point11[1] + epaisseur, arete1_2.Point11[2] - epaisseur],
-    B3: [arete1_4.Point11[0] + epaisseur, arete1_4.Point11[1] + epaisseur, arete1_4.Point11[2] + epaisseur],
-    B4: [arete1_4.Point5[0] - epaisseur, arete1_4.Point5[1] + epaisseur, arete1_4.Point5[2] + epaisseur],
-    H1: arete1_2.Point5,
-    H2: arete1_2.Point11,
-    H3: arete1_4.Point11,
-    H4: arete1_4.Point5
+    B1: [arete1_2.Point5[0] - epaisseur + tolerance, arete1_2.Point5[1] + epaisseur, arete1_2.Point5[2] - epaisseur + tolerance],
+    B2: [arete1_2.Point11[0] + epaisseur - tolerance, arete1_2.Point11[1] + epaisseur, arete1_2.Point11[2] - epaisseur + tolerance],
+    B3: [arete1_4.Point11[0] + epaisseur - tolerance, arete1_4.Point11[1] + epaisseur, arete1_4.Point11[2] + epaisseur - tolerance],
+    B4: [arete1_4.Point5[0] - epaisseur + tolerance, arete1_4.Point5[1] + epaisseur, arete1_4.Point5[2] + epaisseur - tolerance],
+    H1: [arete1_2.Point5[0] + tolerance, arete1_2.Point5[1], arete1_2.Point5[2] + tolerance],
+    H2: [arete1_2.Point11,0] - tolerance, arete1_2.Point11[1], arete1_2.Point11[2] + tolerance],
+    H3: [arete1_4.Point11[0] - tolerance, arete1_4.Point11[1], arete1_4.Point11[2] - tolerance],
+    H4: [arete1_4.Point5[0] + tolerance, arete1_4.Point5[1], arete1_4.Point5[2] - tolerance]
   };
 
   // Joues (Plan X)
