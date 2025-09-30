@@ -152,7 +152,6 @@ const Configurateur = () => {
             autosize: true,
             margin: { l: 0, r: 0, t: 0, b: 0 }
           }}
-          }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true }}
           onRelayout={event => {
