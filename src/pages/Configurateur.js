@@ -189,7 +189,10 @@ const Configurateur = () => {
               margin: { l: 0, r: 0, t: 0, b: 0 }
             }}
             style={{ width: '100%', height: '100%' }}
-            config={{ responsive: true }}
+            config={{
+              responsive: true,
+              displayModeBar: false,
+            }}
           />
           </label>
         </div>
