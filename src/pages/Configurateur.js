@@ -60,10 +60,10 @@ const Configurateur = () => {
     };
   });
 
-    const [camera, setCamera] = useState({
-        up: { x: 0, y: 0, z: 1 },
-        eye: { x: 2.75, y: -2.75, z: -1 }
-    });
+  const [camera, setCamera] = useState({
+    up: { x: 0, y: 0, z: 1 },
+    eye: { x: Longueur * 1.5 / Math.max(Longueur, Largeur, Hauteur), y: -Largeur * 1.5 / Math.max(Longueur, Largeur, Hauteur), z: Hauteur * 1.2 / Math.max(Longueur, Largeur, Hauteur) }
+  });
     const plotRef = useRef();
 
   // Prepare data for panels
@@ -141,19 +141,17 @@ const Configurateur = () => {
           data={[...arêteTraces, ...panelTraces]}
           layout={{
             scene: {
-              xaxis_title: 'X',
-              yaxis_title: 'Y',
-              zaxis_title: 'Z',
+              xaxis: { range: [-30, Longueur + 30], title: 'X' },
+              yaxis: { range: [-30, Largeur + 30], title: 'Y' },
+              zaxis: { range: [-30, Hauteur + 30], title: 'Z' },
               aspectmode: 'manual',
               aspectratio: { x: Longueur, y: Largeur, z: Hauteur },
-              xaxis: { range: [-30, Longueur + 30] },
-              yaxis: { range: [-30, Largeur + 30] },
-              zaxis: { range: [-30, Hauteur + 30] },
               camera: camera
             },
             showlegend: false,
-            autosize: false,
+            autosize: true,
             margin: { l: 0, r: 0, t: 0, b: 0 }
+          }}
           }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true }}
