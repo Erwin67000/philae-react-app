@@ -66,7 +66,7 @@ const Configurateur = () => {
       if (plotRef.current && plotRef.current !== null) {
         const camera = {
           up: { x: 0, y: 0, z: 1 },
-          eye: { x: Longueur * 2, y: 100, z: Hauteur / 2 }
+          eye: { x: -Longueur * 2, y: 100, z: Hauteur / 2 }
         };
         // Use Plotly's relayout to set camera only once
         if (plotRef.current && plotRef.current.props && plotRef.current.props.onRelayout) {
