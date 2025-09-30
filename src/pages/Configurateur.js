@@ -28,7 +28,7 @@ const Configurateur = () => {
   const [Largeur, setLargeur] = useState(400);
   const [Hauteur, setHauteur] = useState(800);
   const minValue = 200; // Set your min value here
-  const maxValue = 2000; // Set your max value here
+  const maxValue = 2500; // Set your max value here
 
   // Compute geometry based on current state
   const {
@@ -97,7 +97,7 @@ const Configurateur = () => {
             value={Longueur}
             onChange={e => setLongueur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={minValue}
-            max={maxValue}
+            max=1400
             style={{ marginLeft: 8, width: 60 }}
           />
         </label>
@@ -108,7 +108,7 @@ const Configurateur = () => {
             value={Largeur}
             onChange={e => setLargeur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={minValue}
-            max={maxValue}
+            max=800
             style={{ marginLeft: 8, width: 60 }}
           />
         </label>
@@ -118,7 +118,7 @@ const Configurateur = () => {
             type="number"
             value={Hauteur}
             onChange={e => setHauteur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
-            min={minValue}
+            min=800
             max={maxValue}
             style={{ marginLeft: 8, width: 60 }}
           />
