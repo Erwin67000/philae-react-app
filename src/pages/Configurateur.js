@@ -62,20 +62,20 @@ const Configurateur = () => {
 
     const plotRef = useRef();
     // Set initial camera only once for 'zoom extents' effect
-    useEffect(() => {
-      if (plotRef.current && plotRef.current !== null) {
-        const camera = {
-          up: { x: 0, y: 1, z: 1 },
-          eye: { x: 1.5, y: -2.5, z: 1 }
-        };
-        // Use Plotly's relayout to set camera only once
-        if (plotRef.current && plotRef.current.props && plotRef.current.props.onRelayout) {
-          // do nothing, handled by Plotly
-        } else if (plotRef.current && plotRef.current.figure) {
-          window.Plotly.relayout(plotRef.current.figure, { 'scene.camera': camera });
+      const [projectionType, setProjectionType] = useState('perspective');
+      useEffect(() => {
+        if (plotRef.current && plotRef.current !== null) {
+          const camera = {
+            up: { x: 0, y: 0, z: 1 },
+            center: { x: 0, y: 0, z: 0 },
+            eye: { x: 200, y: -800, z: 200 },
+            projection: { type: projectionType }
+          };
+          if (plotRef.current && plotRef.current.figure) {
+            window.Plotly.relayout(plotRef.current.figure, { 'scene.camera': camera });
+          }
         }
-      }
-    }, []); // Only on mount
+      }, [projectionType]);
 
   // Prepare data for panels
   const panelcolor = 'rgba(86, 111, 165, 1)';
@@ -148,6 +148,13 @@ const Configurateur = () => {
         </label>
       </div>
       <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
+        <label style={{ marginRight: 16 }}>
+          Projection:
+          <select value={projectionType} onChange={e => setProjectionType(e.target.value)} style={{ marginLeft: 8 }}>
+            <option value="perspective">Perspective</option>
+            <option value="orthographic">Orthographic</option>
+          </select>
+        </label>
         <Plot
           data={[...arêteTraces, ...panelTraces]}
           layout={{
@@ -156,7 +163,12 @@ const Configurateur = () => {
               yaxis: { range: [-30, Largeur + 30], title: 'Y' },
               zaxis: { range: [-30, Hauteur + 30], title: 'Z' },
               aspectmode: 'data', // auto-fit and allow zoom
-            },
+              camera: {
+                up: { x: 0, y: 0, z: 1 },
+                center: { x: 0, y: 0, z: 0 },
+                eye: { x: 200, y: -800, z: 200 },
+                projection: { type: projectionType }
+              }
             showlegend: false,
             autosize: true,
             margin: { l: 0, r: 0, t: 0, b: 0 }
