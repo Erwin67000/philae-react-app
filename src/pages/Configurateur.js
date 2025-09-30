@@ -97,7 +97,7 @@ const Configurateur = () => {
             value={Longueur}
             onChange={e => setLongueur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={minValue}
-            max=1400
+            max={1400}
             style={{ marginLeft: 8, width: 60 }}
           />
         </label>
@@ -108,7 +108,7 @@ const Configurateur = () => {
             value={Largeur}
             onChange={e => setLargeur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={minValue}
-            max=800
+            max={800}
             style={{ marginLeft: 8, width: 60 }}
           />
         </label>
@@ -118,7 +118,7 @@ const Configurateur = () => {
             type="number"
             value={Hauteur}
             onChange={e => setHauteur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
-            min=800
+            min={800}
             max={maxValue}
             style={{ marginLeft: 8, width: 60 }}
           />
