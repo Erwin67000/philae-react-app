@@ -5,6 +5,7 @@ import Accueil from './pages/Accueil';
 import Configurateur from './pages/Configurateur';
 import Boutique from './pages/Boutique';
 import Contact from './pages/Contact';
+import projet_client from './pages/projet_client';
 
 function App() {
     return (
