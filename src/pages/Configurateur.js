@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Plot from 'react-plotly.js';
 import { computeGeometry } from './geometry3D';
 import { SketchPicker } from 'react-color';
+import ReactDOM from 'react-dom';
 
 
   const face_arete = [
@@ -80,6 +81,7 @@ const Configurateur = () => {
 
   // Prepare data for panels
   const [panelcolor, setPanelcolor] = useState({ r: 86, g: 111, b: 165, a: 1 });
+  const [showColorPicker, setShowColorPicker] = useState(false);
   const panels = [
     { data: panneau_fond, name: 'Fond', color: panelcolor },
     { data: joue1, name: 'Joue1', color:  panelcolor },
@@ -108,7 +110,7 @@ const Configurateur = () => {
   return (
     <div style={{ width: '100vw', height: '75vh', overflow: 'hidden', background: '#fff' }}>
       {/* The main site header is assumed to be rendered by App.js or a parent component */}
-      <div style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600, position: 'relative', zIndex: 10 }}>
+      <div style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600, position: 'relative', zIndex: 1 }}>
         Configurateur 3D
       </div>
       <div style={{ width: '100vw', height: 56, background: '#f8f8f8', display: 'flex', alignItems: 'center', gap: 16, padding: '0 16px', zIndex: 5, position: 'relative' }}>
@@ -152,13 +154,53 @@ const Configurateur = () => {
           />
           <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
-        <label style={{ marginRight: 16 }}>
-          Panel color (rgba):
-          <SketchPicker
-            color={panelcolor}
-            onChange={color => setPanelcolor(color.rgb)}
+        <label style={{ marginRight: 16, position: 'relative' }}>
+          Couleur panneau :
+          <div
+            style={{
+              display: 'inline-block',
+              width: 40,
+              height: 40,
+              background: `rgba(${panelcolor.r},${panelcolor.g},${panelcolor.b},${panelcolor.a})`,
+              border: '1px solid #888',
+              borderRadius: 4,
+              cursor: 'pointer',
+              verticalAlign: 'middle',
+              marginLeft: 8
+            }}
+            onClick={() => setShowColorPicker(true)}
           />
         </label>
+        {showColorPicker && (
+          <div
+            style={{
+              position: 'fixed',
+              zIndex: 9999,
+              left: 0,
+              top: 0,
+              width: '100vw',
+              height: '100vh',
+              background: 'rgba(0,0,0,0.0)'
+            }}
+            onClick={() => setShowColorPicker(false)}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: 70,
+                transform: 'translateX(-50%)',
+                zIndex: 10000
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              <SketchPicker
+                color={panelcolor}
+                onChange={color => setPanelcolor(color.rgb)}
+              />
+            </div>
+          </div>
+        )}
         <label style={{ marginRight: 16 }}>
           Projection:
           <select value={projectionType} onChange={e => setProjectionType(e.target.value)} style={{ marginLeft: 8 }}>
@@ -175,12 +217,11 @@ const Configurateur = () => {
               scene: {
                 xaxis: { range: [-30, Longueur + 30], title: 'X' },
                 yaxis: { range: [-30, Largeur + 30], title: 'Y' },
-                zaxis: { range: [0, Hauteur + 30], title: 'Z' }, // restrict below ground
+                zaxis: { range: [-30, Hauteur + 30], title: 'Z' }, // restrict below ground
                 aspectmode: 'data',
                 camera: {
                   up: { x: 0, y: 0, z: 1 },
-                  center: { x: 0, y: 0, z: 0 },
-                  eye: { x: 1, y: -4, z: 0.15 },
+                  eye: { x: 1, y: -4.5, z: .15 },
                   projection: { type: projectionType }
                 }
               },
