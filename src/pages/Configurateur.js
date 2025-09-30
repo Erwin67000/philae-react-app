@@ -126,7 +126,7 @@ const Configurateur = () => {
       </div>
       <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
         <Plot
-          data={[...arêteTraces, ...arêtePointsTraces, ...panelTraces]}
+          data={[...arêteTraces, ...panelTraces]}
           layout={{
             scene: {
               xaxis_title: 'X',
