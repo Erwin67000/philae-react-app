@@ -167,32 +167,34 @@ const Configurateur = () => {
           </select>
         </label>
       </div>
-      <div style={{ width: '100vw', height: 'calc(100vh - 112px)', position: 'relative', zIndex: 1 }}>
-        <Plot
-          data={[...arêteTraces, ...panelTraces]}
-          layout={{
-            scene: {
-              xaxis: { range: [-30, Longueur + 30], title: 'X' },
-              yaxis: { range: [-30, Largeur + 30], title: 'Y' },
-              zaxis: { range: [0, Hauteur + 30], title: 'Z' }, // restrict below ground
-              aspectmode: 'data',
-              camera: {
-                up: { x: 0, y: 0, z: 1 },
-                center: { x: 0, y: 0, z: 0 },
-                eye: { x: 200, y: -800, z: 200 },
-                projection: { type: projectionType }
-              }
-            },
-            showlegend: false,
-            autosize: true,
-            margin: { l: 0, r: 0, t: 0, b: 0 }
-          }}
-          style={{ width: '100%', height: '100%' }}
-          config={{ responsive: true }}
-        />
+      <div style={{ width: '90vw', height: '100vw', position: 'relative', zIndex: 1 }}>
+        <label>
+          <Plot
+            data={[...arêteTraces, ...panelTraces]}
+            layout={{
+              scene: {
+                xaxis: { range: [-30, Longueur + 30], title: 'X' },
+                yaxis: { range: [-30, Largeur + 30], title: 'Y' },
+                zaxis: { range: [0, Hauteur + 30], title: 'Z' }, // restrict below ground
+                aspectmode: 'data',
+                camera: {
+                  up: { x: 0, y: 0, z: 1 },
+                  center: { x: 0, y: 0, z: 0 },
+                  eye: { x: 200, y: -800, z: 200 },
+                  projection: { type: projectionType }
+                }
+              },
+              showlegend: false,
+              autosize: true,
+              margin: { l: 0, r: 0, t: 0, b: 0 }
+            }}
+            style={{ width: '100%', height: '100%' }}
+            config={{ responsive: true }}
+          />
+          </label>
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default Configurateur;
