@@ -158,7 +158,7 @@ const Configurateur = () => {
               zaxis: { range: [-30, max_dim] },
               camera: { up: { x: 0, y: 0, z: 1 }, eye: { x: 1.25, y: 1.25, z: 1.25 } }
             },
-            showlegend: true,
+            showlegend: false,
             autosize: true,
             margin: { l: 0, r: 0, t: 0, b: 0 }
           }}
