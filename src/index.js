@@ -4,6 +4,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
+import { create } from 'docx'; // Nécessite npm install docx
+import { Packer } from 'docx';
+import jsPDF from 'jspdf'; // Nécessite npm install jspdf -- pour PDF simple (alternative à reportlab)
+import nodemailer from 'nodemailer'; // Nécessite npm install nodemailer -- pour e-mail
+// Note : Pour générer DXF en JS, il n'y a pas de lib parfaite comme ezdxf. On utilise une implémentation simple ici.
+// Pour une lib complète, envisagez 'dxf' ou implémentez manuellement.
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
