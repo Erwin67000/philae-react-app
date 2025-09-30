@@ -81,7 +81,7 @@ const Configurateur = () => {
       j: face_panneau.map(([_, j]) => j),
       k: face_panneau.map(([_, __, k]) => k),
       color: color,
-      opacity: 0.7,
+      opacity: 1,
       flatshading: true,
       name: `face_${name}`,
       visible: true
