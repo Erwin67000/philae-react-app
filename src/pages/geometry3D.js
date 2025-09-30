@@ -1,3 +1,4 @@
+  // Constantes
 const l = 40;
 const h = 40;
 const epaisseur = 19;
@@ -14,6 +15,8 @@ const Rot3_y = R3 * Math.cos(Rot3 - Math.PI / 4);
 const Rot3_z = R3 * Math.sin(Rot3 - Math.PI / 4);
 
 
+
+  // 3 premières arêtes paramétriques
 function computeGeometry(Longueur, Largeur, Hauteur) {
   const arete1 = {
     Point0: [0, 0, 0],
@@ -61,6 +64,9 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
   };
 
 
+
+  // 9 aretes issues des 3 premières
+
   // Create derived arêtes
   function deepCopyArete(arete) {
     // Deep copy all 12 points
@@ -95,13 +101,13 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
     arete2_1[`Point${i}`][0] = Longueur - arete2[`Point${i}`][0];
   }
 
-  // arete2_3: X transform
+  // arete2_3: Z transform
   const arete2_3 = deepCopyArete(arete2);
   for (let i = 0; i < 12; i++) {
     arete2_3[`Point${i}`][2] = Hauteur - arete2[`Point${i}`][2];
   }
 
-  // arete2_4: X transform
+  // arete2_4: Z transform
   const arete2_4 = deepCopyArete(arete2_1);
   for (let i = 0; i < 12; i++) {
     arete2_4[`Point${i}`][2] = Hauteur - arete2_1[`Point${i}`][2];
@@ -113,19 +119,25 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
     arete3_1[`Point${i}`][0] = Longueur - arete3[`Point${i}`][0];
   }
 
-  // arete3_2: X transform
+  // arete3_2: Y transform
   const arete3_2 = deepCopyArete(arete3);
   for (let i = 0; i < 12; i++) {
     arete3_2[`Point${i}`][1] = Largeur - arete3[`Point${i}`][1];
   }
 
-  // arete3_4: X transform
+  // arete3_4: Y transform
   const arete3_4 = deepCopyArete(arete3_1);
   for (let i = 0; i < 12; i++) {
     arete3_4[`Point${i}`][1] = Largeur - arete3_1[`Point${i}`][1];
   }
 
 
+
+//Panneaux
+
+const tolerance = 0; // Ajustez cette valeur pour modifier la tolérance
+
+// Panneaux fond (Plan Y)
   const panneau_fond = {
     B1: [arete1_2.Point5[0] - epaisseur, arete1_2.Point5[1] + epaisseur, arete1_2.Point5[2] - epaisseur],
     B2: [arete1_2.Point11[0] + epaisseur, arete1_2.Point11[1] + epaisseur, arete1_2.Point11[2] - epaisseur],
@@ -137,6 +149,7 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
     H4: arete1_4.Point5
   };
 
+  // Joues (Plan X)
   const joue1 = {
     B1: [arete2.Point3[0] - epaisseur, arete2.Point3[1] - epaisseur, arete2.Point3[2] - epaisseur],
     B2: [arete2.Point9[0] - epaisseur, arete2.Point9[1] + epaisseur, arete2.Point9[2] - epaisseur],
@@ -159,6 +172,7 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
     H4: arete2_4.Point3
   };
 
+  // Socle (Plan Z)
   const socle = {
     B1: [arete1.Point3[0] - epaisseur, arete1.Point3[1] - epaisseur, arete1.Point3[2] - epaisseur],
     B2: [arete1.Point9[0] + epaisseur, arete1.Point9[1] - epaisseur, arete1.Point9[2] - epaisseur],
@@ -170,6 +184,7 @@ function computeGeometry(Longueur, Largeur, Hauteur) {
     H4: arete1_2.Point3
   };
 
+  // Dessus (Plan Z)
   const dessus = {
     B1: [arete1_3.Point3[0] - epaisseur, arete1_3.Point3[1] - epaisseur, arete1_3.Point3[2] + epaisseur],
     B2: [arete1_3.Point9[0] + epaisseur, arete1_3.Point9[1] - epaisseur, arete1_3.Point9[2] + epaisseur],
