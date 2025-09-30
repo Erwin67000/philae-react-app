@@ -60,6 +60,11 @@ const Configurateur = () => {
     };
   });
 
+    const [camera, setCamera] = useState({
+        up: { x: 0, y: 0, z: 1 },
+        eye: { x: 2.75, y: -2.75, z: -1 }
+    });
+    const plotRef = useRef();
 
   // Prepare data for panels
   const panelcolor = 'rgba(86, 111, 165, 1)';
@@ -143,7 +148,7 @@ const Configurateur = () => {
               xaxis: { range: [-30, max_dim] },
               yaxis: { range: [-30, max_dim] },
               zaxis: { range: [-30, max_dim] },
-              camera: { up: { x: 0, y: 0, z: 1 }, eye: { x: 2.75, y: -2.75, z: -1 } }
+              camera: camera
             },
             showlegend: false,
             autosize: true,
@@ -151,6 +156,11 @@ const Configurateur = () => {
           }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true }}
+          onRelayout={event => {
+            if (event['scene.camera']) {
+            setCamera(event['scene.camera']);
+            }
+          }}
         />
       </div>
     </main>
