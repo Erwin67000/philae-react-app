@@ -3,6 +3,8 @@ import Plot from 'react-plotly.js';
 import { computeGeometry } from './geometry3D';
 import { SketchPicker } from 'react-color';
 import ReactDOM from 'react-dom';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+const { processClientProject } = require('./projet_client');
 
 
   const face_arete = [
@@ -210,33 +212,63 @@ const Configurateur = () => {
         </label>
       </div>
       <div style={{ width: '90vw', height: '60vw', position: 'relative', zIndex: 1 }}>
-        <label>
-          <Plot
-            data={[...arêteTraces, ...panelTraces]}
-            layout={{
-              scene: {
-                xaxis: { range: [-30, Longueur + 30], title: 'X' },
-                yaxis: { range: [-30, Largeur + 30], title: 'Y' },
-                zaxis: { range: [-30, Hauteur + 30], title: 'Z' }, // restrict below ground
-                aspectmode: 'data',
-                camera: {
-                  up: { x: 0, y: 0, z: 1 },
-                  eye: { x: 1, y: -4.5, z: .15 },
-                  projection: { type: projectionType }
-                }
-              },
-              showlegend: false,
-              autosize: true,
-              margin: { l: 20, r: 20, t: 0, b: 0 }
-            }}
-            style={{ width: '100%', height: '100%' }}
-            config={{
-              responsive: true,
-              displayModeBar: false,
-            }}
-          />
-          </label>
-        </div>
+        <Plot
+          data={[...arêteTraces, ...panelTraces]}
+          layout={{
+            scene: {
+              xaxis: { range: [-30, Longueur + 30], title: 'X' },
+              yaxis: { range: [-30, Largeur + 30], title: 'Y' },
+              zaxis: { range: [-30, Hauteur + 30], title: 'Z' },
+              aspectmode: 'data',
+              camera: {
+                up: { x: 0, y: 0, z: 1 },
+                eye: { x: 1, y: -4.5, z: .15 },
+                projection: { type: projectionType }
+              }
+            },
+            showlegend: false,
+            autosize: true,
+            margin: { l: 20, r: 20, t: 0, b: 0 }
+          }}
+          style={{ width: '100%', height: '100%' }}
+          config={{
+            responsive: true,
+            displayModeBar: false,
+          }}
+        />
+        <button
+          style={{
+            position: 'absolute',
+            bottom: 24,
+            right: 24,
+            zIndex: 100,
+            padding: '16px 28px',
+            background: '#222',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            fontSize: 18,
+            fontWeight: 600,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+          }}
+          onClick={async () => {
+            const email = window.prompt('Entrez votre email pour recevoir le devis et le plan :');
+            if (!email) return;
+            const params = {
+              email,
+              longueur: Longueur,
+              largeur: Largeur,
+              hauteur: Hauteur,
+              epaisseur: 19 // valeur par défaut ou à rendre dynamique
+            };
+            const result = await processClientProject(params);
+            alert(result);
+          }}
+        >
+          Générer devis & plan
+        </button>
+      </div>
       </div>
     );
 };
