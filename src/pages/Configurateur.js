@@ -24,8 +24,8 @@ const Configurateur = () => {
 
   // State for dimensions
   // Default value 200, min/max can be changed as needed
-  const [Longueur, setLongueur] = useState(400);
-  const [Largeur, setLargeur] = useState(600);
+  const [Longueur, setLongueur] = useState(600);
+  const [Largeur, setLargeur] = useState(400);
   const [Hauteur, setHauteur] = useState(800);
   const minValue = 200; // Set your min value here
   const maxValue = 2000; // Set your max value here
@@ -59,26 +59,6 @@ const Configurateur = () => {
       visible: true
     };
   });
-
-  // Add scatter3d traces for arête vertices for debugging
-  const arêtePointsTraces = arêtes.map((arête, idx) => {
-    const points = Object.values(arête);
-    return {
-      type: 'scatter3d',
-      mode: 'markers',
-      x: points.map(p => p[0]),
-      y: points.map(p => p[1]),
-      z: points.map(p => p[2]),
-      marker: {
-        size: 4,
-        color: arêteColors[idx % arêteColors.length],
-        opacity: 0.8
-      },
-      name: `points_arête_${idx}`,
-      visible: true
-    };
-  });
-
 
 
   // Prepare data for panels
