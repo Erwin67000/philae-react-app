@@ -94,35 +94,41 @@ const Configurateur = () => {
         <label>
           Longueur:
           <input
-            type="number"
+           type="range"
             value={Longueur}
             onChange={e => setLongueur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={minValue}
             max={1400}
-            style={{ marginLeft: 8, width: 60 }}
+            step={10}
+            style={{ marginLeft: 8, width: 120 }}
           />
+          <span style={{ marginLeft: 8 }}>{Longueur}</span>
         </label>
         <label>
           Largeur:
           <input
-            type="number"
+            type="range"
             value={Largeur}
             onChange={e => setLargeur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={minValue}
             max={800}
-            style={{ marginLeft: 8, width: 60 }}
+            step={10}
+            style={{ marginLeft: 8, width: 120 }}
           />
+          <span style={{ marginLeft: 8 }}>{Largeur}</span>
         </label>
         <label>
           Hauteur:
           <input
-            type="number"
+            type="range"
             value={Hauteur}
             onChange={e => setHauteur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
             min={800}
             max={maxValue}
-            style={{ marginLeft: 8, width: 60 }}
+            step={10}
+            style={{ marginLeft: 8, width: 120 }}
           />
+          <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
       </div>
       <div style={{ width: '100%', height: 'calc(100% - 56px)' }}>
