@@ -152,7 +152,7 @@ const Configurateur = () => {
               camera: camera
             },
             showlegend: false,
-            autosize: true,
+            autosize: false,
             margin: { l: 0, r: 0, t: 0, b: 0 }
           }}
           style={{ width: '100%', height: '100%' }}
