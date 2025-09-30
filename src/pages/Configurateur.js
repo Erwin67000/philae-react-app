@@ -137,7 +137,7 @@ const Configurateur = () => {
               xaxis: { range: [-30, max_dim] },
               yaxis: { range: [-30, max_dim] },
               zaxis: { range: [-30, max_dim] },
-              camera: { up: { x: 0, y: 0, z: 1 }, eye: { x: 1.25, y: -1.25, z: -1 } }
+              camera: { up: { x: 0, y: 0, z: 1 }, eye: { x: 1, y: -1, z: -1 } }
             },
             showlegend: false,
             autosize: true,
