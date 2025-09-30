@@ -166,7 +166,7 @@ const Configurateur = () => {
               camera: {
                 up: { x: 0, y: 0, z: 1 },
                 center: { x: 0, y: 0, z: 0 },
-                eye: { x: 200, y: -800, z: 200 },
+                eye: { x: 20, y: -80, z: 20 },
                 projection: { type: projectionType }
               },
             showlegend: false,
