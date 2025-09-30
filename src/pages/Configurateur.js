@@ -106,7 +106,7 @@ const Configurateur = () => {
   });
 
   return (
-    <div style={{ width: '100vw', height: '80vh', overflow: 'hidden', background: '#fff' }}>
+    <div style={{ width: '100vw', height: '60vh', overflow: 'hidden', background: '#fff' }}>
       {/* The main site header is assumed to be rendered by App.js or a parent component */}
       <div style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600, position: 'relative', zIndex: 10 }}>
         Configurateur 3D
