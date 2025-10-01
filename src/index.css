@@ -1,4 +1,23 @@
 body {
+  background: rgb(22, 17, 121) !important;
+}
+
+button {
+  background: rgb(251, 228, 214) !important;
+  color: rgb(12, 9, 80) !important;
+  border: 2px solid rgb(12, 9, 80) !important;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 24px;
+  transition: box-shadow 0.2s;
+}
+
+button:hover, button:focus {
+  box-shadow: 0 0 0 3px rgba(38, 31, 179, 0.2);
+  outline: none;
+}
+body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

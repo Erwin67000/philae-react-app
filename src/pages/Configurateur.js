@@ -37,7 +37,15 @@ const Configurateur = () => {
 
   // Prépare les traces pour Plotly (simplifié)
   const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
-  const arêteColors = 'rgba(170, 132, 74, 1)';
+  // Nouvelle palette Philae
+  const PALETTE = [
+    'rgb(251, 228, 214)', // beige
+    'rgb(38, 31, 179)',   // bleu vif
+    'rgb(22, 17, 121)',   // bleu foncé
+    'rgb(12, 9, 80)'      // bleu très foncé
+  ];
+  // Couleur des arêtes (bleu foncé)
+  const arêteColors = 'rgb(22, 17, 121)';
   const arêteTraces = arêtes.map((arête, idx) => {
     const points = Object.values(arête);
     return {
@@ -71,7 +79,8 @@ const Configurateur = () => {
   }, [projectionType]);
 
   // State pour la couleur des panneaux
-  const [panelcolor, setPanelcolor] = useState({ r: 86, g: 111, b: 165, a: 1 });
+  // Couleur par défaut des panneaux (beige)
+  const [panelcolor, setPanelcolor] = useState({ r: 251, g: 228, b: 214, a: 1 });
   const [showColorPicker, setShowColorPicker] = useState(false);
   const panels = [
     { data: panneau_fond, name: 'Fond', color: panelcolor },
@@ -183,6 +192,12 @@ const Configurateur = () => {
               <SketchPicker
                 color={panelcolor}
                 onChange={color => setPanelcolor(color.rgb)}
+                presetColors={[
+                  'rgb(251, 228, 214)',
+                  'rgb(38, 31, 179)',
+                  'rgb(22, 17, 121)',
+                  'rgb(12, 9, 80)'
+                ]}
               />
             </div>
           </div>
