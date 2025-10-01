@@ -44,10 +44,10 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  }
+    ],
   "dependencies": {
-  // ... tes deps existantes
   "express": "^4.19.2",
   "cors": "^2.8.5"
+  }
+}
 }
