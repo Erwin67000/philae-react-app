@@ -221,10 +221,10 @@ const Configurateur = () => {
         <button
           style={{
             position: 'absolute',
-            bottom: 24,
+            bottom: 124,
             right: 24,
             zIndex: 100,
-            padding: '16px 28px',
+            padding: '26px 34px',
             background: '#222',
             color: '#fff',
             border: 'none',
