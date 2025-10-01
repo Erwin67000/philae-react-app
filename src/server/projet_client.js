@@ -34,3 +34,5 @@ if (process.env.NODE_ENV === 'production') {
 app.listen(PORT, () => {
   console.log(`Backend Philae Design sur http://localhost:${PORT}`);
 });
+
+module.exports = { processClientProject };
