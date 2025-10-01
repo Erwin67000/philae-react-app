@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'; // Pour des liens sans rechargement
 const Header = () => {
     return (
         <header style={{ backgroundImage: "url('/assets/background.png')", backgroundSize: 'cover', padding: '40px', textAlign: 'center' }}>
-            <img src="/assets/logo_PHILAE.jpg" alt="Logo Philae Design" style={{ height: '80px' }} />
+              background: rgb(251, 228, 214) !important;
+                color: rgb(12, 9, 80) !important;
             <nav>
                 <ul style={{ listStyle: 'none', padding: 0 }}>
                     <li style={{ display: 'inline', margin: '0 15px' }}><Link to="/">Accueil</Link></li>
