@@ -2,46 +2,40 @@ import React, { useEffect, useState, useRef } from 'react';
 import Plot from 'react-plotly.js';
 import { computeGeometry } from './geometry3D';
 import { SketchPicker } from 'react-color';
-import ReactDOM from 'react-dom';
 
+// Définis les faces pour les arêtes et panneaux (déplacées dans le composant)
+const face_arete = [
+  [0, 2, 8], [8, 6, 0],
+  [6, 10, 4], [4, 0, 6],
+  [1, 3, 9], [9, 7, 1],
+  [7, 11, 5], [5, 1, 7],
+  [2, 3, 8], [8, 9, 3],
+  [4, 5, 10], [10, 11, 5]
+];
 
-  const face_arete = [
-    [0, 2, 8], [8, 6, 0],
-    [6, 10, 4], [4, 0, 6],
-    [1, 3, 9], [9, 7, 1],
-    [7, 11, 5], [5, 1, 7],
-    [2, 3, 8], [8, 9, 3],
-    [4, 5, 10], [10, 11, 5]
-  ];
+const face_panneau = [
+  [0, 1, 2],
+  [2, 3, 0],
+  [4, 5, 6],
+  [6, 7, 4]
+];
 
-  const face_panneau = [
-    [0, 1, 2],
-    [2, 3, 0],
-    [4, 5, 6],
-    [6, 7, 4]
-  ];
-
-
-const Configurateur = async () => {
-
-  // State for dimensions
-  // Default value 200, min/max can be changed as needed
+const Configurateur = () => {
+  // State pour les dimensions
   const [Longueur, setLongueur] = useState(600);
   const [Largeur, setLargeur] = useState(400);
   const [Hauteur, setHauteur] = useState(800);
-  const minValue = 200; // Set your min value here
-  const maxValue = 2500; // Set your max value here
+  const minValue = 200;
+  const maxValue = 2500;
 
-  // Compute geometry based on current state
+  // Compute geometry
   const {
     arete1, arete2, arete3, arete1_2, arete1_3, arete1_4,
     arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4,
     panneau_fond, joue1, joue2, socle, dessus
   } = computeGeometry(Longueur, Largeur, Hauteur);
 
-  const max_dim = Math.max(Longueur, Largeur, Hauteur) * 1.1;
-
-  // Prepare data for all arêtes with unique colors and scatter3d for vertices
+  // Prépare les traces pour Plotly (simplifié)
   const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
   const arêteColors = 'rgba(170, 132, 74, 1)';
   const arêteTraces = arêtes.map((arête, idx) => {
@@ -62,32 +56,29 @@ const Configurateur = async () => {
     };
   });
 
-    const plotRef = useRef();
-    // Set initial camera only once for 'zoom extents' effect
-      const [projectionType, setProjectionType] = useState('perspective');
-      useEffect(() => {
-        if (plotRef.current && plotRef.current !== null) {
-          const camera = {
-            up: { x: 0, y: 0, z: 1 },
-            center: { x: 0, y: 0, z: 0 },
-            eye: { x: 200, y: -800, z: 200 },
-            projection: { type: projectionType }
-          };
-          if (plotRef.current && plotRef.current.figure) {
-            window.Plotly.relayout(plotRef.current.figure, { 'scene.camera': camera });
-          }
-        }
-      }, [projectionType]);
+  const plotRef = useRef();
+  const [projectionType, setProjectionType] = useState('perspective');
+  useEffect(() => {
+    if (plotRef.current && plotRef.current.figure) {
+      const camera = {
+        up: { x: 0, y: 0, z: 1 },
+        center: { x: 0, y: 0, z: 0 },
+        eye: { x: 200, y: -800, z: 200 },
+        projection: { type: projectionType }
+      };
+      window.Plotly.relayout(plotRef.current.figure, { 'scene.camera': camera });
+    }
+  }, [projectionType]);
 
-  // Prepare data for panels
+  // State pour la couleur des panneaux
   const [panelcolor, setPanelcolor] = useState({ r: 86, g: 111, b: 165, a: 1 });
   const [showColorPicker, setShowColorPicker] = useState(false);
   const panels = [
     { data: panneau_fond, name: 'Fond', color: panelcolor },
-    { data: joue1, name: 'Joue1', color:  panelcolor },
-    { data: joue2, name: 'Joue2', color:  panelcolor},
-    { data: socle, name: 'Socle', color:  panelcolor },
-    { data: dessus, name: 'Dessus', color:  panelcolor }
+    { data: joue1, name: 'Joue1', color: panelcolor },
+    { data: joue2, name: 'Joue2', color: panelcolor },
+    { data: socle, name: 'Socle', color: panelcolor },
+    { data: dessus, name: 'Dessus', color: panelcolor }
   ];
   const panelTraces = panels.map(({ data, name, color }) => {
     const points = Object.values(data);
@@ -107,64 +98,50 @@ const Configurateur = async () => {
     };
   });
 
+  // Bouton pour générer devis et plan
+  const handleGenerate = async () => {
+    const email = window.prompt('Entrez votre email pour recevoir le devis et le plan :');
+    if (!email) return;
 
-  const response = await fetch('/api/generate-devis', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params)
-  });
-  const result = await response.text();
-  alert(result);
+    const params = {
+      email,
+      longueur: Longueur,
+      largeur: Largeur,
+      hauteur: Hauteur,
+      epaisseur: 19 // Valeur par défaut, à rendre dynamique si besoin
+    };
+
+    try {
+      const response = await fetch('http://localhost:5000/api/generate-devis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params)
+      });
+      const result = await response.json();
+      alert(result.message);
+    } catch (error) {
+      console.error('Erreur lors de la génération:', error);
+      alert('Erreur lors de la génération du devis.');
+    }
+  };
 
   return (
-    <div style={{ width: '100vw', height: '75vh', overflow: 'hidden', background: '#fff' }}>
-      {/* The main site header is assumed to be rendered by App.js or a parent component */}
-      <div style={{ width: '100vw', height: 56, background: '#222', color: '#fff', display: 'flex', alignItems: 'center', paddingLeft: 24, fontSize: 22, fontWeight: 600, position: 'relative', zIndex: 1 }}>
-        Configurateur 3D
-      </div>
-      <div style={{ width: '100vw', height: 56, background: '#f8f8f8', display: 'flex', alignItems: 'center', gap: 16, padding: '0 16px', zIndex: 5, position: 'relative' }}>
-        {/* Controls bar */}
-        <label>
-          Longueur:
-          <input
-            type="range"
-            value={Longueur}
-            onChange={e => setLongueur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
-            min={minValue}
-            max={1400}
-            step={10}
-            style={{ marginLeft: 8, width: 120 }}
-          />
+    <div style={{ width: '100vw', height: '100vh' }}>
+      <div style={{ padding: '20px' }}>
+        <label style={{ marginRight: 16 }}>
+          Longueur: <input type="range" min={minValue} max={maxValue} value={Longueur} onChange={e => setLongueur(Number(e.target.value))} />
           <span style={{ marginLeft: 8 }}>{Longueur}</span>
         </label>
-        <label>
-          Largeur:
-          <input
-            type="range"
-            value={Largeur}
-            onChange={e => setLargeur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
-            min={minValue}
-            max={800}
-            step={10}
-            style={{ marginLeft: 8, width: 120 }}
-          />
+        <label style={{ marginRight: 16 }}>
+          Largeur: <input type="range" min={minValue} max={maxValue} value={Largeur} onChange={e => setLargeur(Number(e.target.value))} />
           <span style={{ marginLeft: 8 }}>{Largeur}</span>
         </label>
-        <label>
-          Hauteur:
-          <input
-            type="range"
-            value={Hauteur}
-            onChange={e => setHauteur(Math.max(minValue, Math.min(maxValue, Number(e.target.value))))}
-            min={800}
-            max={maxValue}
-            step={10}
-            style={{ marginLeft: 8, width: 120 }}
-          />
+        <label style={{ marginRight: 16 }}>
+          Hauteur: <input type="range" min={minValue} max={maxValue} value={Hauteur} onChange={e => setHauteur(Number(e.target.value))} />
           <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
         <label style={{ marginRight: 16, position: 'relative' }}>
-          Couleur panneau :
+          Couleur panneau:
           <div
             style={{
               display: 'inline-block',
@@ -229,7 +206,7 @@ const Configurateur = async () => {
               aspectmode: 'data',
               camera: {
                 up: { x: 0, y: 0, z: 1 },
-                eye: { x: 1, y: -4.5, z: .15 },
+                eye: { x: 1, y: -4.5, z: 0.15 },
                 projection: { type: projectionType }
               }
             },
@@ -238,10 +215,8 @@ const Configurateur = async () => {
             margin: { l: 20, r: 20, t: 0, b: 0 }
           }}
           style={{ width: '100%', height: '100%' }}
-          config={{
-            responsive: true,
-            displayModeBar: false,
-          }}
+          config={{ responsive: true, displayModeBar: false }}
+          ref={plotRef}
         />
         <button
           style={{
@@ -259,25 +234,13 @@ const Configurateur = async () => {
             cursor: 'pointer',
             boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
           }}
-          onClick={async () => {
-            const email = window.prompt('Entrez votre email pour recevoir le devis et le plan :');
-            if (!email) return;
-            const params = {
-              email,
-              longueur: Longueur,
-              largeur: Largeur,
-              hauteur: Hauteur,
-              epaisseur: 19 // valeur par défaut ou à rendre dynamique
-            };
-            const result = await processClientProject(params);
-            alert(result);
-          }}
+          onClick={handleGenerate}
         >
           Générer devis & plan
         </button>
       </div>
-      </div>
-    );
+    </div>
+  );
 };
 
 export default Configurateur;
