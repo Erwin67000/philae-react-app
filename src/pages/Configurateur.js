@@ -221,9 +221,9 @@ const Configurateur = () => {
         <button
           style={{
             position: 'absolute',
-            bottom: 124,
-            right: 24,
-            zIndex: 100,
+            left: '50%',
+            top: '50%',
+            zIndex: 10
             padding: '26px 34px',
             background: '#222',
             color: '#fff',
