@@ -3,8 +3,6 @@ import Plot from 'react-plotly.js';
 import { computeGeometry } from './geometry3D';
 import { SketchPicker } from 'react-color';
 import ReactDOM from 'react-dom';
-// eslint-disable-next-line import/no-webpack-loader-syntax
-const { processClientProject } = require('./projet_client');
 
 
   const face_arete = [
@@ -108,6 +106,15 @@ const Configurateur = () => {
       visible: true
     };
   });
+
+
+  const response = await fetch('/api/generate-devis', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params)
+  });
+  const result = await response.text();
+  alert(result);
 
   return (
     <div style={{ width: '100vw', height: '75vh', overflow: 'hidden', background: '#fff' }}>
@@ -272,5 +279,9 @@ const Configurateur = () => {
       </div>
     );
 };
+
+
+
+
 
 export default Configurateur;

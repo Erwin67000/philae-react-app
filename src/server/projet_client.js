@@ -1,9 +1,9 @@
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-const { create } = require('docx'); 
+const { create } = require('docx'); // Nécessite npm install docx
 const { Packer } = require('docx');
-const jsPDF = require('jspdf'); 
-const nodemailer = require('nodemailer'); 
+const jsPDF = require('jspdf'); // Nécessite npm install jspdf -- pour PDF simple (alternative à reportlab)
+const nodemailer = require('nodemailer'); // Nécessite npm install nodemailer -- pour e-mail
 const DxfParser = require('dxf-parser'); // Nécessite npm install dxf-parser -- mais pour écrire DXF, on peut utiliser une lib comme dxf-writer
 // Note : Pour générer DXF en JS, il n'y a pas de lib parfaite comme ezdxf. On utilise une implémentation simple ici.
 // Pour une lib complète, envisagez 'dxf' ou implémentez manuellement.
