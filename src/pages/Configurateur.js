@@ -22,7 +22,7 @@ import ReactDOM from 'react-dom';
   ];
 
 
-const Configurateur = () => {
+const Configurateur = async () => {
 
   // State for dimensions
   // Default value 200, min/max can be changed as needed
@@ -279,9 +279,5 @@ const Configurateur = () => {
       </div>
     );
 };
-
-
-
-
 
 export default Configurateur;
