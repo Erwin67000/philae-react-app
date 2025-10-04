@@ -1,11 +1,11 @@
 body {
-  background: rgb(22, 17, 121) !important;
+  background: rgb(165, 115, 86) !important;
 }
 
 button {
-  background: rgb(251, 228, 214) !important;
-  color: rgb(12, 9, 80) !important;
-  border: 2px solid rgb(12, 9, 80) !important;
+  background: rgb(165, 115, 86) !important;
+  color: rgb(165, 115, 86) !important;
+  border: 2px solid rgb(165, 115, 86) !important;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;

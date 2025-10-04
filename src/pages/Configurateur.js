@@ -194,10 +194,11 @@ const Configurateur = () => {
                 color={panelcolor}
                 onChange={color => setPanelcolor(color.rgb)}
                 presetColors={[
-                  'rgb(251, 228, 214)',
-                  'rgb(38, 31, 179)',
-                  'rgb(22, 17, 121)',
-                  'rgb(12, 9, 80)'
+                'rgb(191, 124, 43)', // beige
+                'rgb(89, 58, 40)',   // bleu vif
+                'rgb(38, 20, 14)',   // bleu foncé
+                'rgb(165, 115, 86)',
+                'rgb(140, 90, 72)'      // bleu très foncé
                 ]}
               />
             </div>
