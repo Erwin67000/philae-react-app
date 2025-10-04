@@ -40,8 +40,6 @@ const Configurateur = () => {
   const [Longueur, setLongueur] = useState(600);
   const [Largeur, setLargeur] = useState(400);
   const [Hauteur, setHauteur] = useState(800);
-  const minValue = 200;
-  const maxValue = 2500;
 
   // Compute geometry
   const {
@@ -53,13 +51,7 @@ const Configurateur = () => {
   // Prépare les traces pour Plotly (simplifié)
   const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
   // Nouvelle palette Philae
-  const PALETTE = [
-    'rgb(191, 124, 43)', // beige
-    'rgb(89, 58, 40)',   // bleu vif
-    'rgb(38, 20, 14)',   // bleu foncé
-    'rgb(165, 115, 86)',
-    'rgb(140, 90, 72)'      // bleu très foncé
-  ];
+
 
   // Pour chaque arête, générer les faces et lignes
   let arêteData = [];
