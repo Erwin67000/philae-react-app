@@ -1,14 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+@font-face {
+  font-family: 'Outfit';
+  src: url('/font/Outfit-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
 
 body {
   background: rgb(22, 17, 121) !important;
-  font-family: 'Outfit', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  font-family: var(--philae-font);
 }
 
 .philae-header {
-  background: rgb(22, 17, 121) !important;
+  background: rgb(165, 115, 86) !important;
   color: rgb(251, 228, 214) !important;
-  font-family: 'Outfit', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  font-family: var(--philae-font);
   padding: 32px 0 24px 0;
   text-align: center;
 }
@@ -31,6 +37,7 @@ body {
   font-size: 1.25rem;
   font-weight: 600;
   height: 48px;
+  font-family: var(--philae-font);
 }
 
 .philae-nav li {
@@ -70,11 +77,10 @@ button:hover, button:focus {
   box-shadow: 0 0 0 3px rgba(38, 31, 179, 0.2);
   outline: none;
 }
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--philae-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
