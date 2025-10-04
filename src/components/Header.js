@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'; // Pour des liens sans rechargement
 
 const Header = () => {
     return (
-    <header style={{background: 'rgb(12, 9, 80)', backgroundSize: 'cover', padding: '40px', textAlign: 'center' }}>
+    <header className="philae-header" style={{ backgroundSize: 'cover', padding: '40px', textAlign: 'center' }}>
             <img src="/assets/logo.jpg" alt="Logo Philae Design" style={{ height: '80px' }} />
             <nav>
                 <ul style={{ listStyle: 'none', padding: 0 }}>

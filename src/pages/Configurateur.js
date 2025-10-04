@@ -139,15 +139,15 @@ const Configurateur = () => {
     <div style={{ width: '100vw', height: '100vh' }}>
       <div style={{ padding: '20px' }}>
         <label style={{ marginRight: 16 }}>
-          Longueur: <input type="range" min={minValue} max={maxValue} value={Longueur} onChange={e => setLongueur(Number(e.target.value))} />
+          Longueur: <input type="range" min={400} max={1600} value={Longueur} onChange={e => setLongueur(Number(e.target.value))} />
           <span style={{ marginLeft: 8 }}>{Longueur}</span>
         </label>
         <label style={{ marginRight: 16 }}>
-          Largeur: <input type="range" min={minValue} max={maxValue} value={Largeur} onChange={e => setLargeur(Number(e.target.value))} />
+          Largeur: <input type="range" min={150} max={800} value={Largeur} onChange={e => setLargeur(Number(e.target.value))} />
           <span style={{ marginLeft: 8 }}>{Largeur}</span>
         </label>
         <label style={{ marginRight: 16 }}>
-          Hauteur: <input type="range" min={minValue} max={maxValue} value={Hauteur} onChange={e => setHauteur(Number(e.target.value))} />
+          Hauteur: <input type="range" min={400} max={2500} value={Hauteur} onChange={e => setHauteur(Number(e.target.value))} />
           <span style={{ marginLeft: 8 }}>{Hauteur}</span>
         </label>
         <label style={{ marginRight: 16, position: 'relative' }}>
@@ -242,14 +242,14 @@ const Configurateur = () => {
             top: '30%',
             zIndex: 10,
             padding: '26px 34px',
-            background: '#222',
-            color: '#fff',
+            background: 'rgba(0, 0, 0, 1)',
+            color: 'rgba(0, 0, 0, 1)',
             border: 'none',
-            borderRadius: 8,
+            borderRadius: 12,
             fontSize: 18,
             fontWeight: 600,
             cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 1)'
           }}
           onClick={handleGenerate}
         >
