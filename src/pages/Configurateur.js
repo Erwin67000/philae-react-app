@@ -39,13 +39,14 @@ const Configurateur = () => {
   const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
   // Nouvelle palette Philae
   const PALETTE = [
-    'rgb(251, 228, 214)', // beige
-    'rgb(38, 31, 179)',   // bleu vif
-    'rgb(22, 17, 121)',   // bleu foncé
-    'rgb(12, 9, 80)'      // bleu très foncé
+    'rgb(191, 124, 43)', // beige
+    'rgb(89, 58, 40)',   // bleu vif
+    'rgb(38, 20, 14)',   // bleu foncé
+    'rgb(165, 115, 86)',
+    'rgb(140, 90, 72)'      // bleu très foncé
   ];
   // Couleur des arêtes (bleu foncé)
-  const arêteColors = 'rgb(22, 17, 121)';
+  const arêteColors = 'rgb(89, 58, 40)';
   const arêteTraces = arêtes.map((arête, idx) => {
     const points = Object.values(arête);
     return {
