@@ -1,22 +1,16 @@
-@font-face {
-  font-family: 'Outfit';
-  src: url('/font/Outfit-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
 
 body {
-  background: rgb(22, 17, 121) !important;
-  font-family: var(--philae-font);
+  font-family: 'Outfit', sans-serif;
 }
 
 .philae-header {
   background: rgb(165, 115, 86) !important;
   color: rgb(251, 228, 214) !important;
   font-family: var(--philae-font);
-  padding: 32px 0 24px 0;
+  padding: 24px 0 24px 0;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 .philae-header img {
@@ -34,9 +28,9 @@ body {
   padding: 0;
   margin: 0 auto;
   width: 100%;
-  font-size: 1.25rem;
-  font-weight: 600;
-  height: 48px;
+  font-size: 2rem;
+  font-weight: 500;
+  height: 30px;
   font-family: var(--philae-font);
 }
 

@@ -13,6 +13,13 @@ const face_arete = [
   [4, 5, 10], [10, 11, 5]
 ];
 
+const line_arete = [
+  [2, 8], [3, 9], [4, 10], [5, 11],
+  [0, 2], [0, 4], [6, 10], [6, 8],
+  [1, 3], [1, 5], [7, 11], [7, 9],
+  [2, 3], [4, 5], [10, 11], [8, 9]
+];
+
 const face_panneau = [
   [0, 1, 2],
   [2, 3, 0],
@@ -21,6 +28,14 @@ const face_panneau = [
 ];
 
 const Configurateur = () => {
+  // Disable scroll on mount, restore on unmount
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
   // State pour les dimensions
   const [Longueur, setLongueur] = useState(600);
   const [Largeur, setLargeur] = useState(400);
@@ -45,39 +60,46 @@ const Configurateur = () => {
     'rgb(165, 115, 86)',
     'rgb(140, 90, 72)'      // bleu très foncé
   ];
-  // Couleur des arêtes (bleu foncé)
-  const arêteColors = 'rgb(89, 58, 40)';
-  const arêteTraces = arêtes.map((arête, idx) => {
-    const points = Object.values(arête);
-    return {
-      type: 'mesh3d',
-      x: points.map(p => p[0]),
-      y: points.map(p => p[1]),
-      z: points.map(p => p[2]),
-      i: face_arete.map(f => f[0]),
-      j: face_arete.map(f => f[1]),
-      k: face_arete.map(f => f[2]),
-      color: arêteColors,
-      opacity: 1,
-      flatshading: true,
-      name: `arête_${idx}`,
-      visible: true
-    };
-  });
 
-  const plotRef = useRef();
-  const [projectionType, setProjectionType] = useState('perspective');
-  useEffect(() => {
-    if (plotRef.current && plotRef.current.figure) {
-      const camera = {
-        up: { x: 0, y: 0, z: 1 },
-        center: { x: 0, y: 0, z: 0 },
-        eye: { x: 200, y: -800, z: 200 },
-        projection: { type: projectionType }
-      };
-      window.Plotly.relayout(plotRef.current.figure, { 'scene.camera': camera });
-    }
-  }, [projectionType]);
+  // Pour chaque arête, générer les faces et lignes
+  let arêteData = [];
+  arêtes.forEach((arête, arêteIdx) => {
+    const pointsRef = Object.values(arête);
+    // Faces pour cette arête
+    face_arete.forEach((triplet, faceIdx) => {
+      const [i, j, k] = triplet;
+      arêteData.push({
+        type: 'mesh3d',
+        x: [pointsRef[i][0], pointsRef[j][0], pointsRef[k][0]],
+        y: [pointsRef[i][1], pointsRef[j][1], pointsRef[k][1]],
+        z: [pointsRef[i][2], pointsRef[j][2], pointsRef[k][2]],
+        i: [0],
+        j: [1],
+        k: [2],
+        color: 'rgb(89, 58, 40)',
+        opacity: 1,
+        flatshading: true,
+        name: `face_arete_${arêteIdx}_${faceIdx}`,
+        visible: true
+      });
+    });
+    // Lignes pour cette arête
+    line_arete.forEach(([i, j], lineIdx) => {
+      arêteData.push({
+        type: 'scatter3d',
+        mode: 'lines',
+        x: [pointsRef[i][0], pointsRef[j][0]],
+        y: [pointsRef[i][1], pointsRef[j][1]],
+        z: [pointsRef[i][2], pointsRef[j][2]],
+        line: {
+          color: 'rgba(5, 5, 5, 1)',
+          width: 5
+        },
+        name: `ligne_arete_${arêteIdx}_${lineIdx}`,
+        showlegend: false
+      });
+    });
+  });
 
   // State pour la couleur des panneaux
   // Couleur par défaut des panneaux (beige)
@@ -156,7 +178,7 @@ const Configurateur = () => {
             style={{
               display: 'inline-block',
               width: 40,
-              height: 40,
+              height: 20,
               background: `rgba(${panelcolor.r},${panelcolor.g},${panelcolor.b},${panelcolor.a})`,
               border: '1px solid #888',
               borderRadius: 4,
@@ -173,7 +195,7 @@ const Configurateur = () => {
               position: 'fixed',
               zIndex: 9999,
               left: 0,
-              top: 0,
+              top: 100,
               width: '100vw',
               height: '100vh',
               background: 'rgba(0,0,0,0.0)'
@@ -184,7 +206,7 @@ const Configurateur = () => {
               style={{
                 position: 'absolute',
                 left: '50%',
-                top: 70,
+                top: 0,
                 transform: 'translateX(-50%)',
                 zIndex: 10000
               }}
@@ -204,17 +226,10 @@ const Configurateur = () => {
             </div>
           </div>
         )}
-        <label style={{ marginRight: 16 }}>
-          Projection:
-          <select value={projectionType} onChange={e => setProjectionType(e.target.value)} style={{ marginLeft: 8 }}>
-            <option value="perspective">Perspective</option>
-            <option value="orthographic">Orthographic</option>
-          </select>
-        </label>
       </div>
-      <div style={{ width: '90vw', height: '60vw', position: 'relative', zIndex: 1 }}>
+      <div style={{ width: '80vw', height: '900px', position: 'relative', zIndex: 1, marginLeft: 'auto', marginRight: 'auto' }}>
         <Plot
-          data={[...arêteTraces, ...panelTraces]}
+          data={[...arêteData, ...panelTraces]}
           layout={{
             scene: {
               xaxis: { range: [-30, Longueur + 30], title: 'X' },
@@ -224,21 +239,20 @@ const Configurateur = () => {
               camera: {
                 up: { x: 0, y: 0, z: 1 },
                 eye: { x: 1, y: -4.5, z: 0.15 },
-                projection: { type: projectionType }
+                projection: { type: 'perspective'}
               }
             },
             showlegend: false,
             autosize: true,
-            margin: { l: 20, r: 20, t: 0, b: 0 }
+            margin: { l: 20, r: 20, t: 20, b: 20 }
           }}
           style={{ width: '100%', height: '100%' }}
           config={{ responsive: true, displayModeBar: false }}
-          ref={plotRef}
         />
         <button
           style={{
             position: 'absolute',
-            left: '90%',
+            left: '80%',
             top: '30%',
             zIndex: 10,
             padding: '26px 34px',
@@ -258,6 +272,6 @@ const Configurateur = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Configurateur;
