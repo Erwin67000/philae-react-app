@@ -137,7 +137,7 @@ const Configurateur = () => {
 
   return (
     <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <div style={{ padding: '20px', display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ padding: '20px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
         <label style={{ marginRight: 16 }}>
           Longueur: <input type="range" min={400} max={1600} value={Longueur} onChange={e => setLongueur(Number(e.target.value))} />
           <span style={{ marginLeft: 8 }}>{Longueur}</span>
