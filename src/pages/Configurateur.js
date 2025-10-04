@@ -136,7 +136,7 @@ const Configurateur = () => {
   };
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div style={{ width: '100vw', height: '60vh' }}>
       <div style={{ padding: '20px' }}>
         <label style={{ marginRight: 16 }}>
           Longueur: <input type="range" min={400} max={1600} value={Longueur} onChange={e => setLongueur(Number(e.target.value))} />

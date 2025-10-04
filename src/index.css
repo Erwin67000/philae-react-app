@@ -4,7 +4,7 @@ body {
 
 button {
   background: rgb(165, 115, 86) !important;
-  color: rgb(165, 115, 86) !important;
+  color: rgb(0, 0, 0) !important;
   border: 2px solid rgb(165, 115, 86) !important;
   border-radius: 8px;
   font-weight: 600;
