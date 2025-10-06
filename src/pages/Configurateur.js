@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import Plot from 'react-plotly.js';
+import React, { useEffect, useState, useRef } from 'react';
+import * as THREE from 'three';
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader';
 import { computeGeometry } from './geometry3D';
 import { SketchPicker } from 'react-color';
 
@@ -263,5 +264,7 @@ const Configurateur = () => {
     </div>
   );
 }
+
+
 
 export default Configurateur;
