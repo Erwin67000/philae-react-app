@@ -57,107 +57,130 @@ const Configurateur = () => {
   const [panelcolor, setPanelcolor] = useState({ r: 251, g: 228, b: 214, a: 1 });
   const [showColorPicker, setShowColorPicker] = useState(false);
 
+  // State pour le modèle DAE
+  const [daeModel, setDaeModel] = useState(null);
+
   // Initialisation de la scène Three.js
-useEffect(() => {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / (window.innerHeight * 0.9), 0.1, 10000);
-  const renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize(window.innerWidth * 0.8, 900);
-  renderer.setClearColor(0x000000, 0);
+  useEffect(() => {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / (window.innerHeight * 0.9), 0.1, 10000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth * 0.8, 900);
+    renderer.setClearColor(0x000000, 0);
 
-  if (mountRef.current) {
-    mountRef.current.appendChild(renderer.domElement);
-  } else {
-    console.error('mountRef.current is null, cannot append renderer');
-    return;
-  }
+    if (mountRef.current) {
+      mountRef.current.appendChild(renderer.domElement);
+    } else {
+      console.error('mountRef.current is null, cannot append renderer');
+      return;
+    }
 
-  // Création des géométries pour arêtes
-  const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
-  arêtes.forEach((arête, arêteIdx) => {
-    const pointsRef = Object.values(arête);
-    face_arete.forEach((triplet) => {
-      const [i, j, k] = triplet;
+    // Chargement du modèle DAE si non chargé
+    if (!daeModel) {
+      const loader = new ColladaLoader();
+      loader.load('/3Dmodel/Projet_Garage.dae', (collada) => {
+        const model = collada.scene;
+        model.position.set(0, 0, 0); // Position à l'origine
+        model.scale.set(1, 1, 1); // Échelle par défaut
+        scene.add(model);
+        setDaeModel(model);
+        console.log('Modèle DAE chargé avec succès');
+      }, (progress) => {
+        console.log('Chargement DAE: ', (progress.loaded / progress.total * 100) + '%');
+      }, (error) => {
+        console.error('Erreur lors du chargement du modèle DAE:', error);
+      });
+    } else {
+      // Ajouter le modèle déjà chargé à la scène
+      scene.add(daeModel);
+    }
+
+    // Création des géométries pour arêtes
+    const arêtes = [arete1, arete2, arete3, arete1_2, arete1_3, arete1_4, arete2_1, arete2_3, arete2_4, arete3_1, arete3_2, arete3_4];
+    arêtes.forEach((arête, arêteIdx) => {
+      const pointsRef = Object.values(arête);
+      face_arete.forEach((triplet) => {
+        const [i, j, k] = triplet;
+        const geometry = new THREE.BufferGeometry();
+        const vertices = new Float32Array([
+          pointsRef[i][0], pointsRef[i][1], pointsRef[i][2],
+          pointsRef[j][0], pointsRef[j][1], pointsRef[j][2],
+          pointsRef[k][0], pointsRef[k][1], pointsRef[k][2]
+        ]);
+        geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        const indices = [0, 1, 2];
+        geometry.setIndex(indices);
+        const material = new THREE.MeshBasicMaterial({ color: 'rgb(89, 58, 40)', side: THREE.DoubleSide });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+      });
+      line_arete.forEach(([i, j]) => {
+        const geometry = new THREE.BufferGeometry();
+        const vertices = new Float32Array([
+          pointsRef[i][0], pointsRef[i][1], pointsRef[i][2],
+          pointsRef[j][0], pointsRef[j][1], pointsRef[j][2]
+        ]);
+        geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        const material = new THREE.LineBasicMaterial({ color: 0x050505, linewidth: 5 });
+        const line = new THREE.Line(geometry, material);
+        scene.add(line);
+      });
+    });
+
+    // Création des géométries pour panneaux
+    const panels = [
+      { data: panneau_fond, name: 'Fond' },
+      { data: joue1, name: 'Joue1' },
+      { data: joue2, name: 'Joue2' },
+      { data: socle, name: 'Socle' },
+      { data: dessus, name: 'Dessus' }
+    ];
+    panels.forEach(({ data, name }) => {
+      const points = Object.values(data);
       const geometry = new THREE.BufferGeometry();
       const vertices = new Float32Array([
-        pointsRef[i][0], pointsRef[i][1], pointsRef[i][2],
-        pointsRef[j][0], pointsRef[j][1], pointsRef[j][2],
-        pointsRef[k][0], pointsRef[k][1], pointsRef[k][2]
+        points[0][0], points[0][1], points[0][2],
+        points[1][0], points[1][1], points[1][2],
+        points[2][0], points[2][1], points[2][2],
+        points[3][0], points[3][1], points[3][2],
+        points[4][0], points[4][1], points[4][2],
+        points[5][0], points[5][1], points[5][2],
+        points[6][0], points[6][1], points[6][2],
+        points[7][0], points[7][1], points[7][2]
       ]);
       geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-      const indices = [0, 1, 2];
+      const indices = [
+        0, 1, 2, 2, 3, 0,
+        4, 5, 6, 6, 7, 4
+      ];
       geometry.setIndex(indices);
-      const material = new THREE.MeshBasicMaterial({ color: 'rgb(89, 58, 40)', side: THREE.DoubleSide });
+      const material = new THREE.MeshBasicMaterial({ color: `rgb(${panelcolor.r}, ${panelcolor.g}, ${panelcolor.b})`, transparent: true, opacity: panelcolor.a });
       const mesh = new THREE.Mesh(geometry, material);
       scene.add(mesh);
     });
-    line_arete.forEach(([i, j]) => {
-      const geometry = new THREE.BufferGeometry();
-      const vertices = new Float32Array([
-        pointsRef[i][0], pointsRef[i][1], pointsRef[i][2],
-        pointsRef[j][0], pointsRef[j][1], pointsRef[j][2]
-      ]);
-      geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-      const material = new THREE.LineBasicMaterial({ color: 0x050505, linewidth: 5 });
-      const line = new THREE.Line(geometry, material);
-      scene.add(line);
-    });
-  });
 
-  // Création des géométries pour panneaux
-  const panels = [
-    { data: panneau_fond, name: 'Fond' },
-    { data: joue1, name: 'Joue1' },
-    { data: joue2, name: 'Joue2' },
-    { data: socle, name: 'Socle' },
-    { data: dessus, name: 'Dessus' }
-  ];
-  panels.forEach(({ data, name }) => {
-    const points = Object.values(data);
-    const geometry = new THREE.BufferGeometry();
-    const vertices = new Float32Array([
-      points[0][0], points[0][1], points[0][2],
-      points[1][0], points[1][1], points[1][2],
-      points[2][0], points[2][1], points[2][2],
-      points[3][0], points[3][1], points[3][2],
-      points[4][0], points[4][1], points[4][2],
-      points[5][0], points[5][1], points[5][2],
-      points[6][0], points[6][1], points[6][2],
-      points[7][0], points[7][1], points[7][2]
-    ]);
-    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-    const indices = [
-      0, 1, 2, 2, 3, 0,
-      4, 5, 6, 6, 7, 4
-    ];
-    geometry.setIndex(indices);
-    const material = new THREE.MeshBasicMaterial({ color: `rgb(${panelcolor.r}, ${panelcolor.g}, ${panelcolor.b})`, transparent: true, opacity: panelcolor.a });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-  });
+    camera.position.set(0, -500, 500);
+    camera.lookAt(0, 0, 0);
 
-  camera.position.set(0, -500, 500);
-  camera.lookAt(0, 0, 0);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = true;
+    controls.enableRotate = true;
 
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableZoom = true;
-  controls.enableRotate = true;
+    const animate = () => {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
 
-  const animate = () => {
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
-  };
-  animate();
-
-  // Cleanup amélioré
-  return () => {
-    if (mountRef.current && renderer.domElement) {
-      mountRef.current.removeChild(renderer.domElement);
-    }
-    renderer.dispose(); // Libère les ressources
-  };
-}, [Longueur, Largeur, Hauteur, panelcolor]);
+    // Cleanup amélioré
+    return () => {
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose(); // Libère les ressources
+    };
+  }, [Longueur, Largeur, Hauteur, panelcolor, daeModel]);
 
   // Bouton pour générer devis et plan
   const handleGenerate = async () => {
