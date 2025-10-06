@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { ColladaLoader } from 'three/examples/jsm/Addons.js'; 
 import { computeGeometry } from './geometry3D';
 import { SketchPicker } from 'react-color';
 
@@ -59,8 +60,8 @@ const Configurateur = () => {
   // Initialisation de la scène Three.js
   useEffect(() => {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / (window.innerHeight * 0.9), 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / (window.innerHeight * 0.9), 0.1, 10000);
+    const renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize(window.innerWidth * 0.8, 900);
     mountRef.current.appendChild(renderer.domElement);
 
