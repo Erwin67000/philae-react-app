@@ -80,8 +80,8 @@ const Configurateur = () => {
       const loader = new ColladaLoader();
       loader.load('/3Dmodel/Projet_Garage.dae', (collada) => {
         const model = collada.scene;
-        model.position.set(0, 0, 0); // Position à l'origine
-        model.scale.set(1, 1, 1); // Échelle par défaut
+        model.position.set(1000, 0, 0); // Position à l'origine
+        model.scale.set(5); // Échelle par défaut
         scene.add(model);
         setDaeModel(model);
         console.log('Modèle DAE chargé avec succès');
