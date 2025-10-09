@@ -82,6 +82,7 @@ const Configurateur = () => {
         const model = collada.scene;
         model.position.set(0, 0, 0); // Position à l'origine
         model.scale.set(1, 1, 1); // Échelle par défaut
+        model.setRotationFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2); // Rotation pour être à plat
         scene.add(model);
         setDaeModel(model);
         console.log('Modèle DAE chargé avec succès');
