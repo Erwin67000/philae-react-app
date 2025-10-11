@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { ColladaLoader } from 'three/examples/jsm/Addons.js'; 
 import { computeGeometry } from './geometry3D';
 import { SketchPicker } from 'react-color';
+import { modelScale } from 'three/tsl';
 
 // Définis les faces pour les arêtes et panneaux
 const face_arete = [
@@ -82,7 +83,8 @@ const Configurateur = () => {
         const model = collada.scene;
         model.position.set(0, 0, 0); // Position à l'origine
         model.scale.set(1, 1, 1); // Échelle par défaut
-        model.setRotationFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2); // Rotation pour être à plat
+        model.setRotationFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI / 2); // Rotation pour être à plat
+        model.scale.multiplyScalar(100); // Appliquer l'échelle définie
         scene.add(model);
         setDaeModel(model);
         console.log('Modèle DAE chargé avec succès');

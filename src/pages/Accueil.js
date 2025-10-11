@@ -13,7 +13,7 @@ const Accueil = () => {
             <p>Que ce soit une table, une lampe ou une œuvre sur mesure, Philae transforme des contraintes parfaites en créations qui vous ressemblent, sans limite autre que votre imagination.</p>
 
             </div>
-            {/* Ajoute des images ou teasers ici */}
+            <img src="/assets/roue.png" alt="roue des 3 Univers" style={{ height: '800px' }} />
         </main>
     );
 };
